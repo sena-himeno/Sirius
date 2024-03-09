@@ -1,4 +1,6 @@
 import {TodoEvent} from "@/app/interface/todoList";
+import {MoodDateType} from "@/app/interface/diary";
+import axios from "axios";
 
 export const startEvent = (todoEvent:TodoEvent) => {
     todoEvent.status = 'in-progress';
@@ -55,13 +57,14 @@ export const getAllTodoList = async () => {
 
 export const addTodoEvent = async ( todoEvent: TodoEvent) => {
     try {
+        const isUpdateList = false;
         let fileName = 'pendingEvent';
         const response = await fetch('/api/todoList/postTodoEvent', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ fileName, todoEvent })
+            body: JSON.stringify({ fileName, todoEvent ,isUpdateList})
         });
 
         return await response.json();
@@ -70,3 +73,23 @@ export const addTodoEvent = async ( todoEvent: TodoEvent) => {
         throw error;
     }
 };
+
+export const postTodoEventList = async (fileName:string,todoEvent: TodoEvent[]) => {
+    try {
+        const isUpdateList = true;
+        const response = await fetch('/api/todoList/postTodoEvent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ fileName, todoEvent , isUpdateList})
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error adding todo list:', error);
+        throw error;
+    }
+};
+
+

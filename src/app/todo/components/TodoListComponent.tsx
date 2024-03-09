@@ -1,63 +1,45 @@
-'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../../style/todoList.module.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import {  TodoListComponent} from './TodoListTableComponent';
-import {TodoEvent} from '../../interface/todoList';
-import {startEvent,doneEvent,remakeEvent,getDate,getAllTodoList} from "@/app/utils/todoList";
+import { TodoListComponent } from './TodoListTableComponent';
+import { TodoEvent } from '../../interface/todoList';
+import { Button } from '@mui/material';
+import { doneEvent, getAllTodoList, postTodoEventList, remakeEvent, startEvent } from "@/app/utils/todoList";
+import {SaveButtonProps} from "@/app/interface/todoList";
 
-const TodoList: React.FC = () => {
+interface TodoListProps {
+    isUpdated: boolean;
+}
+
+const TodoList: React.FC<TodoListProps> = ({ isUpdated }: TodoListProps) => {
     const [updatedItems, setUpdatedItems] = useState<TodoEvent[]>([]);
-    const [pendingItems, setPendingItems] = useState<TodoEvent[]>([]);
-    const [inProgressItems, setInProgressItems] = useState<TodoEvent[]>([]);
-    const [doneItems, setDoneItems] = useState<TodoEvent[]>([]);
+    const [isSaved, setIsSaved] = useState<boolean>(true); // Track if items are saved
+
+    const fetchData = async () => {
+        try {
+            const data = await getAllTodoList();
+            setUpdatedItems(data);
+        } catch (error) {
+            console.error('Error fetching todo list:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getAllTodoList();
-
-                setUpdatedItems(data);
-
-            } catch (error) {
-                console.error('Error fetching todo list:', error);
-            }
-        };
         fetchData();
-    }, []);
+    }, [isUpdated]);
 
-    useEffect(() => {
-        console.log('Updated Items:', updatedItems);
-
-        const pending = updatedItems.filter(item => item.status === 'pending');
-        console.log('Pending Items:', pending);
-
-        setPendingItems(pending);
-
-        const inProgress = updatedItems.filter(item => item.status === 'in-progress');
-        console.log('In Progress Items:', inProgress);
-        setInProgressItems(inProgress);
-
-        const done = updatedItems.filter(item => item.status === 'done');
-        console.log('Done Items:', done);
-        setDoneItems(done);
-    }, [updatedItems]);
-
-
-    const handleUpdateItems = (index: number, action: string, addTime: string, title: string) => {
+    const handleUpdateItems = async (index: number, action: string, addTime: string, title: string) => {
         setUpdatedItems(prevItems => {
             const updatedItemsCopy = [...prevItems];
-            console.log(title);
             const filteredItems = updatedItemsCopy.filter(item => (item.title + item.addTime) === (title + addTime));
             if (filteredItems.length > 0) {
                 const updatedItem = { ...filteredItems[0] };
                 if (action === 'CANCEL') {
-                    const remainingItems = updatedItemsCopy.filter(item => (item.title + item.addTime) !== (title + addTime));
-                    console.log(remainingItems);
-                    return remainingItems;
+                    // Remove item from list
+                    return updatedItemsCopy.filter(item => (item.title + item.addTime) !== (title + addTime));
                 } else if (action === 'REMAKE') {
                     remakeEvent(updatedItem);
                 } else if (action === 'START') {
@@ -71,7 +53,17 @@ const TodoList: React.FC = () => {
                 return prevItems;
             }
         });
+
+        setIsSaved(false);
     };
+
+    const memoizedValues = useMemo(() => {
+        const pendingItems = updatedItems.filter(item => item.status === 'pending');
+        const inProgressItems = updatedItems.filter(item => item.status === 'in-progress');
+        const doneItems = updatedItems.filter(item => item.status === 'done').reverse() ;  //存的是旧的在上 所以先反转再用
+
+        return { pendingItems, inProgressItems, doneItems };
+    }, [updatedItems]);
 
     return (
         <div>
@@ -79,33 +71,33 @@ const TodoList: React.FC = () => {
                 <DndProvider backend={HTML5Backend}>
                     <div className="col-md-6 col-lg-4">
                         <TodoListComponent
-                            key={JSON.stringify(pendingItems)}
+                            key={JSON.stringify(memoizedValues.pendingItems)}
                             title="待进行"
                             buttonText="CANCEL"
                             statusFilter="pending"
-                            items={pendingItems}
+                            items={memoizedValues.pendingItems}
                             renderContent={(value: TodoEvent) => <>{value.title}</>}
                             onUpdateItems={handleUpdateItems}
                         />
                     </div>
                     <div className="col-md-6 col-lg-4">
                         <TodoListComponent
-                            key={JSON.stringify(inProgressItems)}
+                            key={JSON.stringify(memoizedValues.inProgressItems)}
                             title="进行中"
                             buttonText="REMAKE"
                             statusFilter="in-progress"
-                            items={inProgressItems}
+                            items={memoizedValues.inProgressItems}
                             renderContent={(value: TodoEvent) => <>{value.title}</>}
                             onUpdateItems={handleUpdateItems}
                         />
                     </div>
                     <div className="col-md-6 col-lg-4">
                         <TodoListComponent
-                            key={JSON.stringify(inProgressItems)}
+                            key={JSON.stringify(memoizedValues.doneItems)}
                             title="已完成"
                             buttonText="DONE"
                             statusFilter="done"
-                            items={doneItems}
+                            items={memoizedValues.doneItems.slice(0, 20)}
                             renderContent={(value: TodoEvent) => (
                                 <>
                                     <span className={`col-md-12 ${styles.listContextDone}`}>{value.title}</span>
@@ -113,11 +105,36 @@ const TodoList: React.FC = () => {
                             )}
                             onUpdateItems={handleUpdateItems}
                         />
+
                     </div>
                 </DndProvider>
+            </div>
+            <div>
+                <div>
+                    {!isSaved && <SaveButton updatedItems={updatedItems} setIsSaved={setIsSaved} />}
+                </div>
             </div>
         </div>
     );
 };
+
+export const SaveButton: React.FC<SaveButtonProps> = ({ updatedItems, setIsSaved }: SaveButtonProps) => {
+    const updateTodoListToJson = async () => {
+        try {
+            await postTodoEventList('pendingEvent', updatedItems.filter(item => item.status === 'pending'));
+            await postTodoEventList('in-progress', updatedItems.filter(item => item.status === 'in-progress'));
+            await postTodoEventList('doneEvent', updatedItems.filter(item => item.status === 'done'));
+            console.log('Updated items saved successfully.');
+            setIsSaved(true);
+        } catch (error) {
+            console.error('Error saving updated items:', error);
+        }
+    }
+
+    return (
+        <Button onClick={updateTodoListToJson}>Save Updated</Button>
+    );
+};
+
 
 export default TodoList;

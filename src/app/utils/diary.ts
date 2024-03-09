@@ -92,5 +92,3 @@ export const postCurrentDayMood = async (currentDate: string, mood: string, mood
     }
 };
 
-
-

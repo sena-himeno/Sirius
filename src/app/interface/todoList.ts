@@ -1,3 +1,5 @@
+import React from "react";
+
 export type TodoEvent = {
     title: string;
     status: string;
@@ -13,4 +15,8 @@ export type TodoListComponentProps = {
     items: TodoEvent[];
     renderContent: (value: TodoEvent) => JSX.Element;
     onUpdateItems: (index: number, action: string, addTime: string, title: string) => void;
+}
+export interface SaveButtonProps {
+    updatedItems: TodoEvent[];
+    setIsSaved: React.Dispatch<React.SetStateAction<boolean>>;
 }

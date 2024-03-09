@@ -4,22 +4,25 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
+        const { fileName, todoEvent, isUpdateList } = req.body;
 
-        const { fileName, todoEvent } = req.body;
-        console.log('fileName:', fileName);
-        console.log('todoEvent:', todoEvent);
-        if (!fileName || !todoEvent) {
-            return res.status(400).json({ error: 'Missing file name or todo event data' });
+        if (!fileName || !todoEvent || typeof isUpdateList === 'undefined') {
+            return res.status(400).json({ error: 'Missing file name, todo event data, or isUpdateList parameter' });
         }
 
         const filePath = path.join(process.cwd(), 'public', 'todoList', `${fileName}.json`);
 
         try {
-            // 读取文件内容
             const fileData = await fs.readFile(filePath, 'utf-8');
-            const jsonData = JSON.parse(fileData);
+            let jsonData = JSON.parse(fileData);
 
-            jsonData.push(todoEvent);
+            if (isUpdateList) {
+                jsonData = todoEvent;
+            } else {
+                jsonData.push(todoEvent);
+            }
+            console.log(jsonData+"jsonData");
+            console.log(fileData+"fileData");
 
             await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), 'utf-8');
 

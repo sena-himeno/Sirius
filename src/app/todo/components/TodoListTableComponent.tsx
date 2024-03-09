@@ -1,4 +1,3 @@
-'use client'
 import React, { useLayoutEffect, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -133,7 +132,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
 
                 {statusFilter === "done" ? item.startTime :
                     <Button className={styles.listButton} onClick={() => handleButtonClicked(buttonText === 'CANCEL' ? 'CANCEL' : 'REMAKE', item)}>
-                        {buttonText === 'CANCEL' ? <i className="bi bi-eraser-fill"></i> : <i className="bi bi-hourglass-split"></i>}
+                        {buttonText === 'CANCEL' ? <i className="bi bi-eraser-fill"></i> :   <i className="bi bi-hourglass-top"></i>}
                     </Button>
                 }
             </td>
@@ -142,7 +141,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
                 <td className={styles.listButton}>{item.endTime}</td> :
                 <td className={styles.listButton}>
                     <Button className={`col-md-3 ${styles.listButton}`} onClick={() => handleButtonClicked(buttonText === 'CANCEL' ? 'START' : 'DONE', item)}>
-                        {buttonText === 'CANCEL' ? <i className="bi bi-hourglass-top"></i> : <i className="bi bi-hourglass-bottom"></i>}
+                        {buttonText === 'CANCEL' ?  <i className="bi bi-hourglass-split"></i> : <i className="bi bi-hourglass-bottom"></i>}
                     </Button>
                 </td>
             }
