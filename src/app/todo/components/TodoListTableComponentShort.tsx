@@ -1,14 +1,14 @@
+'use client'
 import React, { useLayoutEffect, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../../style/todoList.module.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Button } from '@mui/material';
-import {TodoEvent,TodoListComponentProps,TodoItemProps} from '../../interface/todoList';
+import {TodoEvent,TodoListComponentProps} from '../../interface/todoList';
 
 export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, buttonText, statusFilter, items, renderContent, onUpdateItems }) => {
     const [filteredItems, setFilteredItems] = useState<TodoEvent[]>(items);
-
     const moveItem = (dragIndex: number, hoverIndex: number) => {
         const dragItem = filteredItems[dragIndex];
         setFilteredItems(prevItems => {
@@ -33,17 +33,15 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
             <table className={styles.listTable}>
                 <thead>
                 <tr>
-                    <th className={styles.listButton}>{buttonText === 'DONE' ? 'startTime' : buttonText}</th>
+                    <th className={styles.listButton}>{buttonText === 'ADD' ? 'CANCEL' : "REMAKE"}</th>
                     <th className={styles.listTitle}>
-                        {title === "待进行" ? (
+                        {title === "添加列表" ?
                             <i className="bi bi-hourglass-top"></i>
-                        ) : title === "进行中" ? (
+                         :
                             <i className="bi bi-hourglass-split"></i>
-                        ) : (
-                            <i className="bi bi-hourglass-bottom"></i>
-                        )}
+                        }
                     </th>
-                    {statusFilter === "done" ? <th className={styles.listButton}>endTime</th> : <th className={styles.listButton}>{buttonText === 'CANCEL' ? 'START' : 'DONE'}</th>}
+                    <th className={styles.listButton}>{buttonText === 'ADD' ? 'ADD' : 'DONE'}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -65,7 +63,15 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
     );
 };
 
-
+type TodoItemProps = {
+    index: number;
+    item: TodoEvent;
+    moveItem: (dragIndex: number, hoverIndex: number) => void;
+    renderContent: (value: TodoEvent) => React.ReactNode;
+    statusFilter: string;
+    buttonText: string;
+    onButtonClick: (index: number, action: string, addTime: string, title: string) => void;
+};
 
 export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, renderContent, statusFilter, buttonText, onButtonClick }) => {
     const handleButtonClicked = (action: string, item: TodoEvent) => {
@@ -123,8 +129,8 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
             <td className={`col-md-3 ${styles.listButton}`}>
 
                 {statusFilter === "done" ? item.startTime :
-                    <Button className={styles.listButton} onClick={() => handleButtonClicked(buttonText === 'CANCEL' ? 'CANCEL' : 'REMAKE', item)}>
-                        {buttonText === 'CANCEL' ? <i className="bi bi-eraser-fill"></i> :   <i className="bi bi-hourglass-top"></i>}
+                    <Button className={styles.listButton} onClick={() => handleButtonClicked(buttonText === 'ADD' ? 'CANCEL' : 'REMAKE', item)}>
+                        {buttonText === 'ADD' ? <i className="bi bi-eraser-fill"></i> : <i className="bi bi-hourglass-top"></i>}
                     </Button>
                 }
             </td>
@@ -132,8 +138,8 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
             {statusFilter === "done" ?
                 <td className={styles.listButton}>{item.endTime}</td> :
                 <td className={styles.listButton}>
-                    <Button className={`col-md-3 ${styles.listButton}`} onClick={() => handleButtonClicked(buttonText === 'CANCEL' ? 'START' : 'DONE', item)}>
-                        {buttonText === 'CANCEL' ?  <i className="bi bi-hourglass-split"></i> : <i className="bi bi-hourglass-bottom"></i>}
+                    <Button className={`col-md-3 ${styles.listButton}`} onClick={() => handleButtonClicked(buttonText === 'ADD' ? 'ADD' : 'DONE', item)}>
+                        {buttonText === 'ADD' ? <i className="bi bi-hourglass-split"></i> : <i className="bi bi-hourglass-bottom"></i>}
                     </Button>
                 </td>
             }

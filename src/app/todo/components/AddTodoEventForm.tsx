@@ -27,14 +27,14 @@ const AddTodoEventForm: React.FC<AddTodoEventFormProps> = ({ onUpdate }: AddTodo
         };
 
         try {
-            setSubmitting(true); // Set submitting to true to disable the submit button
+            setSubmitting(true);
             await addTodoEvent(newTodoEvent);
             console.log('Todo Event added successfully:', newTodoEvent);
             onUpdate();
         } catch (error) {
             console.error('Error adding todo event:', error);
         } finally {
-            setSubmitting(false); // Reset submitting state
+            setSubmitting(false);
             handleCloseDialog();
         }
     };

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import TodoList from './components/TodoListComponent';
+import TodoListShort from './components/TodoListComponentsShort';
 import  AddTodoEventForm from './components/AddTodoEventForm';
 
 
@@ -15,9 +16,11 @@ const ParentComponent = () => {
 
     return (
         <div>
-            <AddTodoEventForm onUpdate={handleFormUpdate} />
-            <TodoList isUpdated={isFormUpdated} />
+            {/*<AddTodoEventForm onUpdate={handleFormUpdate} />*/}
+            {/*<TodoList isUpdated={isFormUpdated} />*/}
+            <TodoListShort />
         </div>
+
     );
 };
 

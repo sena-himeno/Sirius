@@ -16,7 +16,7 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ isUpdated }: TodoListProps) => {
     const [updatedItems, setUpdatedItems] = useState<TodoEvent[]>([]);
-    const [isSaved, setIsSaved] = useState<boolean>(true); // Track if items are saved
+    const [isSaved, setIsSaved] = useState<boolean>(true);
 
     const fetchData = async () => {
         try {
@@ -38,7 +38,6 @@ const TodoList: React.FC<TodoListProps> = ({ isUpdated }: TodoListProps) => {
             if (filteredItems.length > 0) {
                 const updatedItem = { ...filteredItems[0] };
                 if (action === 'CANCEL') {
-                    // Remove item from list
                     return updatedItemsCopy.filter(item => (item.title + item.addTime) !== (title + addTime));
                 } else if (action === 'REMAKE') {
                     remakeEvent(updatedItem);
