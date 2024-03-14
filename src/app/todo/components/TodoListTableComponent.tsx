@@ -35,9 +35,9 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
                 <tr>
                     <th className={styles.listButton}>{buttonText === 'DONE' ? 'startTime' : buttonText}</th>
                     <th className={styles.listTitle}>
-                        {title === "待进行" ? (
+                        {title === "PENDING" ? (
                             <i className="bi bi-hourglass-top"></i>
-                        ) : title === "进行中" ? (
+                        ) : title === "IN_PROGRESS" ? (
                             <i className="bi bi-hourglass-split"></i>
                         ) : (
                             <i className="bi bi-hourglass-bottom"></i>

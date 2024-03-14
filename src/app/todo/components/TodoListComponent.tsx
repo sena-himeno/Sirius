@@ -6,15 +6,13 @@ import styles from '../../../style/todoList.module.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { TodoListComponent } from './TodoListTableComponent';
 import { TodoEvent } from '../../interface/todoList';
-import { Button } from '@mui/material';
-import { doneEvent, getAllTodoList, postTodoEventList, remakeEvent, startEvent } from "@/app/utils/todoList";
-import {SaveButtonProps} from "@/app/interface/todoList";
+import { doneEvent, getAllTodoList, remakeEvent, startEvent } from "@/app/utils/todoList";
+import AddTodoEventForm from './AddTodoEventForm';
+import {SaveButton} from "@/app/todo/components/SaveButton";
 
-interface TodoListProps {
-    isUpdated: boolean;
-}
 
-const TodoList: React.FC<TodoListProps> = ({ isUpdated }: TodoListProps) => {
+
+const TodoList  = () => {
     const [updatedItems, setUpdatedItems] = useState<TodoEvent[]>([]);
     const [isSaved, setIsSaved] = useState<boolean>(true);
 
@@ -29,7 +27,7 @@ const TodoList: React.FC<TodoListProps> = ({ isUpdated }: TodoListProps) => {
 
     useEffect(() => {
         fetchData();
-    }, [isUpdated]);
+    }, []);
 
     const handleUpdateItems = async (index: number, action: string, addTime: string, title: string) => {
         setUpdatedItems(prevItems => {
@@ -71,18 +69,24 @@ const TodoList: React.FC<TodoListProps> = ({ isUpdated }: TodoListProps) => {
                     <div className="col-md-6 col-lg-4">
                         <TodoListComponent
                             key={JSON.stringify(memoizedValues.pendingItems)}
-                            title="待进行"
+                            title="PENDING"
                             buttonText="CANCEL"
                             statusFilter="pending"
                             items={memoizedValues.pendingItems}
                             renderContent={(value: TodoEvent) => <>{value.title}</>}
                             onUpdateItems={handleUpdateItems}
                         />
+                        <div className={`col-12 border-top ${styles.todoListTableButton}`}>
+                            <AddTodoEventForm  onUpdate={fetchData}/>
+                        </div>
+                        <div className={`col-12 ${styles.todoListTableButton}`}>
+                            {!isSaved && <SaveButton updatedItems={updatedItems} setIsSaved={setIsSaved}/>}
+                        </div>
                     </div>
                     <div className="col-md-6 col-lg-4">
                         <TodoListComponent
                             key={JSON.stringify(memoizedValues.inProgressItems)}
-                            title="进行中"
+                            title="IN_PROGRESS"
                             buttonText="REMAKE"
                             statusFilter="in-progress"
                             items={memoizedValues.inProgressItems}
@@ -93,7 +97,7 @@ const TodoList: React.FC<TodoListProps> = ({ isUpdated }: TodoListProps) => {
                     <div className="col-md-6 col-lg-4">
                         <TodoListComponent
                             key={JSON.stringify(memoizedValues.doneItems)}
-                            title="已完成"
+                            title="DONE_ITEM"
                             buttonText="DONE"
                             statusFilter="done"
                             items={memoizedValues.doneItems.slice(0, 20)}
@@ -109,31 +113,12 @@ const TodoList: React.FC<TodoListProps> = ({ isUpdated }: TodoListProps) => {
                 </DndProvider>
             </div>
             <div>
-                <div>
-                    {!isSaved && <SaveButton updatedItems={updatedItems} setIsSaved={setIsSaved} />}
-                </div>
+
             </div>
         </div>
     );
 };
 
-export const SaveButton: React.FC<SaveButtonProps> = ({ updatedItems, setIsSaved }: SaveButtonProps) => {
-    const updateTodoListToJson = async () => {
-        try {
-            await postTodoEventList('pendingEvent', updatedItems.filter(item => item.status === 'pending'));
-            await postTodoEventList('in-progress', updatedItems.filter(item => item.status === 'in-progress'));
-            await postTodoEventList('doneEvent', updatedItems.filter(item => item.status === 'done'));
-            console.log('Updated items saved successfully.');
-            setIsSaved(true);
-        } catch (error) {
-            console.error('Error saving updated items:', error);
-        }
-    }
-
-    return (
-        <Button onClick={updateTodoListToJson}>Save Updated</Button>
-    );
-};
 
 
 export default TodoList;

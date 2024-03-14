@@ -92,4 +92,69 @@ export const postTodoEventList = async (fileName:string,todoEvent: TodoEvent[]) 
     }
 };
 
+export const getBasicTodoList = async() =>{
+    const fileName = 'basicTodolist';
+    const date = null;
+    try {
+            const response = await fetch('/api/todoList/getTodoListShort', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
 
+            body: JSON.stringify({ fileName,date})
+            
+        });
+        return await response.json();
+        
+    } catch (error) {
+        console.error('Error load basic todo list:', error);
+        throw error;
+    }
+}
+
+export const getShortTodoList = async(date:string) =>{
+    let preFileName =date.substring(0,date.lastIndexOf("-"));
+    const fileName = preFileName+'-shortTodoList';
+    try {
+        const response = await fetch('/api/todoList/getTodoListShort', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify({ fileName,date})
+
+        });
+        return await response.json();
+
+    } catch (error) {
+        console.error('Error load basic todo list:', error);
+        throw error;
+    }
+
+}
+export const postShortTodoList = async (todoList:TodoEvent | TodoEvent[],isBasic:boolean,date:string) =>{
+    let fileName
+    if(!isBasic){
+        let preFileName =date.substring(0,date.lastIndexOf("-"));
+        fileName = preFileName+'-shortTodoList';
+    }else{
+        fileName = 'basicTodolist';
+    }
+    try {
+        const response = await fetch('/api/todoList/postTodoListShort', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ fileName,todoList,date,isBasic})
+        });
+        return await response.json();
+
+    } catch (error) {
+        console.error('Error post basic todo list:', error);
+        throw error;
+    }
+
+}

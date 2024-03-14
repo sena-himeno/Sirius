@@ -1,3 +1,32 @@
+
+
+/*todolist page*/
+
+.todoListControlButton{
+    border-radius:0;
+    margin: 0;
+    border-style: solid;
+    color: purple ;
+    background-color: rgba(0, 160, 86, 0.42);
+}
+
+.todoListContainer{
+    min-width: 1600px;
+
+}
+.todoListContext{
+    background-color: #ededed;
+}
+
+.todoListTableButton{
+    border-radius:0;
+    margin: 0;
+    text-align: center;
+    background-color: transparent;
+}
+
+
+/*todolist table */
 .box {
     text-align: center;
     padding: 1em;
@@ -44,10 +73,4 @@
 
 .listUnit {
 
-}
-
-@media (max-width: 768px) {
-    .listTable {
-        width: 100%;
-    }
 }

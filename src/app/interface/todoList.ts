@@ -1,4 +1,5 @@
 import React from "react";
+import {SaveButtonShort} from "@/app/todo/components/SaveButton";
 
 export interface TodoDetailDialogProps {
     open: boolean;
@@ -38,3 +39,9 @@ export interface SaveButtonProps {
     updatedItems: TodoEvent[];
     setIsSaved: React.Dispatch<React.SetStateAction<boolean>>;
 }
+export interface SaveButtonShortProps {
+    basicTodoList: TodoEvent[];
+    TodoList: TodoEvent[];
+    setIsSaved: React.Dispatch<React.SetStateAction<boolean>>;
+}
+

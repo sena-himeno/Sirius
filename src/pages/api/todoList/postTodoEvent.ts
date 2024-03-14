@@ -5,7 +5,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
         const { fileName, todoEvent, isUpdateList } = req.body;
-
+1
         if (!fileName || !todoEvent || typeof isUpdateList === 'undefined') {
             return res.status(400).json({ error: 'Missing file name, todo event data, or isUpdateList parameter' });
         }
@@ -21,8 +21,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             } else {
                 jsonData.push(todoEvent);
             }
-            console.log(jsonData+"jsonData");
-            console.log(fileData+"fileData");
+            // console.log(jsonData+"jsonData");
+            // console.log(fileData+"fileData");
 
             await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), 'utf-8');
 

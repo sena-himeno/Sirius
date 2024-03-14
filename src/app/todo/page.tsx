@@ -4,24 +4,38 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import TodoList from './components/TodoListComponent';
 import TodoListShort from './components/TodoListComponentsShort';
-import  AddTodoEventForm from './components/AddTodoEventForm';
+import { Button} from 'react-bootstrap';
+import styles from '@/style/todoList.module.css'
 
+const TodoListPage = () => {
+    const [showTodoList, setShowTodoList] = useState(true);
 
-const ParentComponent = () => {
-    const [isFormUpdated, setIsFormUpdated] = useState(false);
+    const handleToggleTodoList = () => {
+        setShowTodoList(true);
+    };
 
-    const handleFormUpdate = () => {
-        setIsFormUpdated(prevState => !prevState);
+    const handleToggleTodoListShort = () => {
+        setShowTodoList(false);
     };
 
     return (
-        <div>
-            {/*<AddTodoEventForm onUpdate={handleFormUpdate} />*/}
-            {/*<TodoList isUpdated={isFormUpdated} />*/}
-            <TodoListShort />
-        </div>
-
+        <div className={`container-xxl ${styles.todoListContainer}`}>
+            <div className="col-12  ">
+                <div className="col-3">
+                <Button className={`border-0 ${styles.todoListControlButton}`} onClick={handleToggleTodoList} variant={showTodoList ? "primary" : "outline-primary"}>
+                    TODO LIST(Long)
+                </Button>
+                <Button className={`border-0 ${styles.todoListControlButton}`} onClick={handleToggleTodoListShort} variant={!showTodoList ? "primary" : "outline-primary"}>
+                    TODO LIST(Short)
+                </Button>
+                </div>
+            </div>
+            <div className={styles.todoListContext}>
+            {showTodoList ? <TodoList /> : <TodoListShort />}
+            </div>
+        </div >
     );
 };
 
-export default ParentComponent;
+export default TodoListPage;
+

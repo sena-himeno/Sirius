@@ -35,9 +35,9 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
                 <tr>
                     <th className={styles.listButton}>{buttonText === 'ADD' ? 'CANCEL' : "REMAKE"}</th>
                     <th className={styles.listTitle}>
-                        {title === "添加列表" ?
+                        {title === "BASIC_LIST" ?
                             <i className="bi bi-hourglass-top"></i>
-                         :
+                            :
                             <i className="bi bi-hourglass-split"></i>
                         }
                     </th>
@@ -45,7 +45,7 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
                 </tr>
                 </thead>
                 <tbody>
-                {filteredItems.map((item, index) => (
+                {filteredItems.length> 0 ? filteredItems.map((item, index) => (
                     <TodoItem
                         key={index}
                         index={index}
@@ -56,7 +56,7 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
                         buttonText={buttonText}
                         onButtonClick={handleButtonClick}
                     />
-                ))}
+                )): <td> no thing</td> }
                 </tbody>
             </table>
         </div>

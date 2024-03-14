@@ -16,7 +16,7 @@ const AddTodoEventForm: React.FC<AddTodoEventFormProps> = ({ onUpdate }: AddTodo
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (submitting) return; // Prevent multiple submissions
+        if (submitting) return;
 
         const newTodoEvent: TodoEvent = {
             title: title,
@@ -49,7 +49,7 @@ const AddTodoEventForm: React.FC<AddTodoEventFormProps> = ({ onUpdate }: AddTodo
 
     return (
         <>
-            <Button variant="contained" color="primary" onClick={handleOpenDialog} disabled={openDialog}>
+            <Button onClick={handleOpenDialog} disabled={openDialog}>
                 Add Todo Event
             </Button>
 
