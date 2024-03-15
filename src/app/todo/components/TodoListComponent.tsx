@@ -66,7 +66,7 @@ const TodoList  = () => {
         <div>
             <div className="row">
                 <DndProvider backend={HTML5Backend}>
-                    <div className="col-md-6 col-lg-4">
+                    <div className="col-md-6 col-lg-4 ">
                         <TodoListComponent
                             key={JSON.stringify(memoizedValues.pendingItems)}
                             title="PENDING"
@@ -83,7 +83,7 @@ const TodoList  = () => {
                             {!isSaved && <SaveButton updatedItems={updatedItems} setIsSaved={setIsSaved}/>}
                         </div>
                     </div>
-                    <div className="col-md-6 col-lg-4">
+                    <div className="col-md-6 col-lg-4 border ">
                         <TodoListComponent
                             key={JSON.stringify(memoizedValues.inProgressItems)}
                             title="IN_PROGRESS"

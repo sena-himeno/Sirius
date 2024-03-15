@@ -23,6 +23,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             }
 
+            if(jsonData === undefined){
+                jsonData = [];
+            }
+
             console.log(jsonData)
 
             res.status(200).json(jsonData);

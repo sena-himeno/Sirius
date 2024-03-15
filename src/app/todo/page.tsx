@@ -22,10 +22,10 @@ const TodoListPage = () => {
         <div className={`container-xxl ${styles.todoListContainer}`}>
             <div className="col-12  ">
                 <div className="col-3">
-                <Button className={`border-0 ${styles.todoListControlButton}`} onClick={handleToggleTodoList} variant={showTodoList ? "primary" : "outline-primary"}>
+                <Button className={`border-0 ${styles.todoListControlButton}  ${showTodoList ? styles.buttonChoose : styles.todoListTableButton}`}  onClick={handleToggleTodoList} >
                     TODO LIST(Long)
                 </Button>
-                <Button className={`border-0 ${styles.todoListControlButton}`} onClick={handleToggleTodoListShort} variant={!showTodoList ? "primary" : "outline-primary"}>
+                <Button className={`border-0 ${styles.todoListControlButton} ${!showTodoList ? styles.buttonChoose : styles.todoListTableButton}`} onClick={handleToggleTodoListShort}>
                     TODO LIST(Short)
                 </Button>
                 </div>

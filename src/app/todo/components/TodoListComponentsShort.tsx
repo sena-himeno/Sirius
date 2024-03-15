@@ -159,7 +159,7 @@ const TodoListShort: React.FC = () => {
                             {isSaved && <SaveButtonShort basicTodoList={baseTodoList} TodoList={sortedInProgressItems} setIsSaved={setIsSaved} />}
                         </div>
                     </div>
-                    <div className="col-md-2 col-lg-2">
+                    <div className="col-md-2 col-lg-2 border ">
                         <TimelineComponent items={sortedInProgressItems} />
                     </div>
                     <div className="col-md-5 col-lg-5">
