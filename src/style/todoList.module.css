@@ -4,6 +4,8 @@
 
 .todoListControlButton{
     background-color: var(--table-bg-color);
+    padding-left : 0.75rem;
+    padding-right : 0.75rem;
 }
 .todoContainer{
     border-radius: 10px;
@@ -16,11 +18,17 @@
     border-color:var(--title-color);
     border-radius: 10px 10px 0 0;
     border-bottom:none;
+    padding-top:1rem;
+    padding-bottom:0.5rem;
+
+}
+.buttonBlock{
+    padding-top:1rem;
 }
 
 .todoListContainer{
-    min-width: 1600px;
-
+    max-width:1600px;
+    margin:0 auto;
 }
 .todoListContext{
     background-color: var(--table-bg-color);
@@ -28,9 +36,7 @@
 
 .todoListTableButton{
     border:0;
-    margin: 0;
     text-align: center;
-    background-color: transparent;
 }
 
 

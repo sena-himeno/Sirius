@@ -19,15 +19,15 @@ const TodoListPage = () => {
     };
 
     return (
-        <div className={`container-xxl ${styles.todoListContainer}`}>
-            <div className="col-12  ">
-                <div className="col-3">
-                <Button className={` ${styles.todoListControlButton}  ${showTodoList ? styles.buttonChoose : styles.todoListTableButton}`}  onClick={handleToggleTodoList} >
+        <div className={`container-full  ${styles.todoListContainer}`}>
+            <div className={`col-12 `}>
+                <div className={`col-3 ${styles.buttonBlock}`}>
+                <button className={` ${styles.todoListControlButton}  ${showTodoList ? styles.buttonChoose : styles.todoListTableButton}`}  onClick={handleToggleTodoList} >
                     TODO LIST(Long)
-                </Button>
-                <Button className={` ${styles.todoListControlButton} ${!showTodoList ? styles.buttonChoose : styles.todoListTableButton}`} onClick={handleToggleTodoListShort}>
+                </button>
+                <button className={` ${styles.todoListControlButton} ${!showTodoList ? styles.buttonChoose : styles.todoListTableButton}`} onClick={handleToggleTodoListShort}>
                     TODO LIST(Short)
-                </Button>
+                </button>
                 </div>
             </div>
             <div className={styles.todoListContext}>

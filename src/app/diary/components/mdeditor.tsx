@@ -3,6 +3,9 @@ import MDEditor from '@uiw/react-md-editor';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {MDEditorProps} from '../../interface/diary'
+import {createMarkdownFile} from "@/app/utils/diary";
+import {getDate} from "@/app/utils/common";
+
 
 const AUTO_SAVE_CHANGE_COUNT = 20;
 const MDEditorComponent: React.FC<MDEditorProps> = ({ url }) => {
@@ -22,10 +25,11 @@ const MDEditorComponent: React.FC<MDEditorProps> = ({ url }) => {
             const fetchMarkdownFile = async () => {
                 setPending(true);
                 try {
+                    await createMarkdownFile(getDate() );
                     const response = await axios.get(url);
                     setValue(response.data);
                 } catch (error) {
-                    console.error('Error fetching markdown file:', error);
+                    setValue('');
                 } finally {
                     setPending(false);
                 }

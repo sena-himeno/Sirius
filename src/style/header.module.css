@@ -23,11 +23,14 @@
 .button {
     background-color: transparent;
     border: none;
+    color: #2296e6;
     margin-right: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .button:hover {
-    background-color: #ddd;
+    color: var(--main-text-color);
+    background-color: #196292;
+    transition: background-color 0.5s ease;
 }

@@ -3,10 +3,9 @@ import axios from "axios";
 export const MOOD_CHOOSE = ["٩(◕‿◕｡)۶", " (´；ω；`)", "｡ﾟ( ﾟஇ‸இﾟ)ﾟ｡", " (╬ Ò ‸ Ó)", "(≧◡≦)", "(≧∇≦)", "(´～｀)", " (´∀｀)♡", "(ﾉ*>∀<)ﾉ", "（╥_╥）"];
 export const MAX_RETRY_COUNT = 5;
 
-export  const createMarkdownFile = async (date: Date) => {
+export  const createMarkdownFile = async (localDate: string) => {
     try {
-        const localDate = date.toLocaleDateString('en-CA');
-        await axios.post('/api/diary/getDiaryFile', { date: localDate });
+        await axios.post('/api/diary/autoCreateDiary', { date: localDate });
     } catch (error) {
         console.error('Error creating Markdown file:', error);
     }

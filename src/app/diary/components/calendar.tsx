@@ -48,7 +48,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateChange }) =
         selectDate.setHours(0);
 
         if (selectDate <= currentDate) {
-            await createMarkdownFile(selectDate);
+            await createMarkdownFile(selectDate.toLocaleDateString('en-CA'));
             setSelectedDate(selectDate);
             onDateChange(selectDate);
         } else {
