@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../components/Header';
 import { Inter } from 'next/font/google';
 import { Metadata } from 'next';
+import '@/style/color.css';
 
 import './globals.css';
 

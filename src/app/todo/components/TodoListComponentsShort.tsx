@@ -138,7 +138,7 @@ const TodoListShort: React.FC = () => {
 
     return (
         <div>
-            <div className="row">
+            <div className={`${styles.todoContainer} row shadow-lg p-3 mb-5`}>
                 <DndProvider backend={HTML5Backend}>
                     <div className="col-md-5 col-lg-5">
                         <TodoListComponent
@@ -152,15 +152,17 @@ const TodoListShort: React.FC = () => {
                         />
                         <div className={`col-12 border-top ${styles.todoListTableButton}`}>
                             <Button onClick={handleOpenAddTodoDialog}>add basic item</Button>
-                            <AddTodoDialog open={addTodoDialogOpen} onClose={handleCloseAddTodoDialog} onAddTodo={handleAddTodo} />
+                            <AddTodoDialog open={addTodoDialogOpen} onClose={handleCloseAddTodoDialog}
+                                           onAddTodo={handleAddTodo}/>
                         </div>
-                        <AddTodoDialog open={dialogOpen} onClose={handleCloseDialog} onAddTodo={handleAddTodo} />
+                        <AddTodoDialog open={dialogOpen} onClose={handleCloseDialog} onAddTodo={handleAddTodo}/>
                         <div className={`col-12 border-top ${styles.todoListTableButton}`}>
-                            {isSaved && <SaveButtonShort basicTodoList={baseTodoList} TodoList={sortedInProgressItems} setIsSaved={setIsSaved} />}
+                            {isSaved && <SaveButtonShort basicTodoList={baseTodoList} TodoList={sortedInProgressItems}
+                                                         setIsSaved={setIsSaved}/>}
                         </div>
                     </div>
-                    <div className="col-md-2 col-lg-2 border ">
-                        <TimelineComponent items={sortedInProgressItems} />
+                    <div className="col-md-2 col-lg-2 ">
+                        <TimelineComponent items={sortedInProgressItems}/>
                     </div>
                     <div className="col-md-5 col-lg-5">
                         <TodoListComponent

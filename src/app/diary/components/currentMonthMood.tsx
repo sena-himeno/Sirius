@@ -41,8 +41,8 @@ const MoodTracker: React.FC<{ currentDate: string }> = ({ currentDate }) => {
 
     return (
         <Container>
-            <Grid container justifyContent="center">
-                <Grid item xs={12} md={12}>
+            <Grid container >
+                <Grid item xs={11} md={11}>
                     <div style={{ margin: '16px', padding: '16px', backgroundColor: '#f5f5f5', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', maxHeight: '55vh', overflowY: 'auto' }}>
                         <Typography variant="h6">{currentDate.substring(0, 7)} 的心情:</Typography>
                         <Button variant="contained" onClick={handleAddMood}>添加/修改今天的心情</Button>

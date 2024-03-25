@@ -28,7 +28,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateChange }) =
 
     const tileClassName = ({ date }: { date: Date }): string => {
         const dateString = date.toLocaleDateString('en-CA');
-        return fileExistsMap[dateString] ? styles['current-month'] : '';
+        return fileExistsMap[dateString] ? styles['current-month'] : styles['no-file'];
     };
 
     const handleDateChange = (value: Value, event: React.MouseEvent<HTMLButtonElement>) => {
@@ -58,7 +58,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateChange }) =
     };
 
     return (
-        <div className="container  offset-md-1">
+        <div className="  offset-md-1">
             <Calendar
                 onClickDay={handleClick}
                 onChange={handleDateChange}

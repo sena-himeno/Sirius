@@ -1,0 +1,75 @@
+:root {
+    color-scheme: light dark;
+
+    body{
+        background-color: var(--body-bg-color);
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        min-height: 100vh;
+    }
+
+
+    /*dark bg*/
+    --body-bg-color: #2f383e;
+
+    --table-bg-color: #2f383e;
+
+    --title-color: rgba(255, 0, 255, 0.77);
+
+    --other-title-color: #469d79;
+
+    --main-text-color: #f8298c;
+
+    --strong-text-color: #469d79;
+
+    --ico-color: rgba(255, 174, 255, 0.77);
+
+    --editor-bg: rgba(50, 67, 88, 0.38);
+
+    --container-bg : rgb(50, 67, 88);
+
+    --color1: #2f383e;
+
+    --color2: #469d79;
+
+    --color3: #f8298c;
+
+    --color4: #242941;
+
+    --color5: #63657c;
+
+    --color6: #e777a6;
+
+    --color7: #1f6bac;
+
+    --color8: #fcfffc;
+
+    --color9: #f6ac53;
+
+    --color10: #33d1f9;
+
+    --color11: #9e3547;
+
+    --color12: #853382;
+
+    --color13: #3d2548;
+
+    --color14: #2a2139;
+
+    --color15: #2f3e52;
+
+    --color16: #2f78fa;
+
+    --color17: #42413e;
+
+    --color18: #e2933f;
+
+    --color19: #d3c6aa;
+
+    --color20: #b39876;
+
+
+}

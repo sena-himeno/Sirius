@@ -22,11 +22,13 @@ export default function Page() {
         <div className="container-fluid mt-6">
             <div className="row">
                 <div className="col-md-8">
-                    <MDEditorComponent url={filePath} />
+                    <MDEditorComponent url={filePath}/>
                 </div>
-                <div className="col-md-4 ">
-                    <CalendarComponent onDateChange={handleDateChange} />
-                    <MoodTracker currentDate={dateFileName} />
+                <div className="col-md-3 ">
+                    <CalendarComponent onDateChange={handleDateChange}/>
+                    <MoodTracker currentDate={dateFileName}/>
+                </div>
+                <div className="col-md-1 ">
                 </div>
             </div>
         </div>

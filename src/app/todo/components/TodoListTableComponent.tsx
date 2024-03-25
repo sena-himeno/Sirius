@@ -30,7 +30,7 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
 
     return (
         <div className={styles.box}>
-            <table className={styles.listTable}>
+                <table className={styles.listTable}>
                 <thead>
                 <tr>
                     <th className={styles.listButton}>{buttonText === 'DONE' ? 'startTime' : buttonText}</th>

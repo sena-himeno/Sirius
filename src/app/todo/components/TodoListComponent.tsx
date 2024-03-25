@@ -63,10 +63,9 @@ const TodoList  = () => {
     }, [updatedItems]);
 
     return (
-        <div>
-            <div className="row">
+            <div className={`${styles.todoContainer} row shadow-lg p-3 mb-5`}>
                 <DndProvider backend={HTML5Backend}>
-                    <div className="col-md-6 col-lg-4 ">
+                    <div className={`col-md-6 col-lg-4  `}>
                         <TodoListComponent
                             key={JSON.stringify(memoizedValues.pendingItems)}
                             title="PENDING"
@@ -77,13 +76,13 @@ const TodoList  = () => {
                             onUpdateItems={handleUpdateItems}
                         />
                         <div className={`col-12 border-top ${styles.todoListTableButton}`}>
-                            <AddTodoEventForm  onUpdate={fetchData}/>
+                            <AddTodoEventForm onUpdate={fetchData}/>
                         </div>
                         <div className={`col-12 ${styles.todoListTableButton}`}>
                             {!isSaved && <SaveButton updatedItems={updatedItems} setIsSaved={setIsSaved}/>}
                         </div>
                     </div>
-                    <div className="col-md-6 col-lg-4 border ">
+                    <div className={`col-md-6 col-lg-4   `}>
                         <TodoListComponent
                             key={JSON.stringify(memoizedValues.inProgressItems)}
                             title="IN_PROGRESS"
@@ -94,7 +93,7 @@ const TodoList  = () => {
                             onUpdateItems={handleUpdateItems}
                         />
                     </div>
-                    <div className="col-md-6 col-lg-4">
+                    <div className={`col-md-6 col-lg-4 `}>
                         <TodoListComponent
                             key={JSON.stringify(memoizedValues.doneItems)}
                             title="DONE_ITEM"
@@ -112,13 +111,8 @@ const TodoList  = () => {
                     </div>
                 </DndProvider>
             </div>
-            <div>
-
-            </div>
-        </div>
     );
 };
-
 
 
 export default TodoList;
