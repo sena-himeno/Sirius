@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Typography, List, ListItem, ListItemText, Dialog, DialogTitle, DialogContent, DialogActions, Container, Grid } from '@mui/material';
 import { fetchMoodData, postCurrentDayMood, checkMoodFileExists ,MOOD_CHOOSE} from '../../utils/diary';
+import styles from '@/style/diary.module.css';
 
 const MoodTracker: React.FC<{ currentDate: string }> = ({ currentDate }) => {
     const [moodData, setMoodData] = useState<{ day: string; mood: string }[]>([]);
@@ -40,15 +41,23 @@ const MoodTracker: React.FC<{ currentDate: string }> = ({ currentDate }) => {
     };
 
     return (
-        <Container>
-            <Grid container >
-                <Grid item xs={11} md={11}>
-                    <div style={{ margin: '16px', padding: '16px', backgroundColor: '#f5f5f5', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', maxHeight: '55vh', overflowY: 'auto' }}>
-                        <Typography variant="h6">{currentDate.substring(0, 7)} 的心情:</Typography>
-                        <Button variant="contained" onClick={handleAddMood}>添加/修改今天的心情</Button>
+            <div className={`container`} >
+                <div className={`col-12`}>
+                    <div className={`row`}>
+                    <div className={`col-2`}>
+
+                    </div >
+                    <button className={`${styles.moodButton} col-8`} onClick={handleAddMood}>添加/修改今天的心情</button>
+                    </div>
+                    <div className={`row`}>
+                    <div className={`col-1`}>
+
+                    </div>
+                    <div className={`col-11 ${styles.moodBody}`} >
+                        <h4 className={``}>{currentDate.substring(0, 7)}</h4>
                         <List>
                             {moodData.map(({ day, mood }) => (
-                                <ListItem key={day} style={{ justifyContent: 'space-between' }} disablePadding>
+                                <ListItem key={day} className={`${styles.moodItem}`} >
                                     <ListItemText primary={`${day}: ${mood || '暂无记录'}`} />
                                 </ListItem>
                             ))}
@@ -65,14 +74,13 @@ const MoodTracker: React.FC<{ currentDate: string }> = ({ currentDate }) => {
                                 </List>
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={handleCloseDialog} color="primary">取消</Button>
+                                <button onClick={handleCloseDialog} >取消</button>
                             </DialogActions>
                         </Dialog>
                     </div>
-                </Grid>
-            </Grid>
-        </Container>
+                </div>
+                </div>
+            </div>
     );
 };
-
 export default MoodTracker;

@@ -1,6 +1,17 @@
+/*page*/
 .current-month {
-    color: #18ff5a;
+    color: var(--other-title-color);
 }
 .no-file {
-    color: #aa18ff;
+    color: var(--ico-color);
 }
+.container{
+    margin:0 auto;
+    padding:2em;
+}
+.calendar{
+    background-color: var(--body-bg-color);
+    border-radius: 10px;
+    border: 1px solid var(--title-color);
+}
+

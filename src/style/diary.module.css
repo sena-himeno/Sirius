@@ -1,0 +1,98 @@
+
+.container{
+    max-width: 1600px;
+    margin: 0 auto;
+    padding:2rem;
+}
+
+.saveButton{
+    color:var(--strong-text-color);
+    border-color:var(--strong-text-color);
+    border-bottom: none;
+    padding-top:0.5rem;
+    margin: 0 auto;
+
+
+}
+
+.buttonChoose{
+    color:var(--strong-text-color);
+    border-color:var(--title-color);
+    border-radius: 10px 10px 0 0;
+    border-bottom:none;
+    padding-top:0.5rem;
+
+}
+.buttonBlock{
+    padding-top:1rem;
+}
+.todoListTableButton{
+    border:0;
+    text-align: center;
+}
+.todoListControlButton{
+    background-color: var(--table-bg-color);
+    padding-left : 0.75rem;
+    padding-right : 0.75rem;
+}
+.todoListControlButton:hover{
+    background-color: var(--title-color);
+    color:var(--strong-text-color)
+}
+
+
+
+/*md editor*/
+
+.diaryPreview{
+    max-height: 700px   ;
+    overflow-y: auto;
+    background-color: var(--body-bg-color);
+}
+
+.markdownContainer{
+    max-height: 75vh;
+    border-radius: 10px;
+    padding-right:3em;
+
+}
+.MDEditor{
+    background-color: var(--body-bg-color);
+    --md-editor-background-color :  var(--body-bg-color);
+    --color-canvas-default:var(--body-bg-color);
+    border: 1px solid var(--title-color);
+    border-radius: 10px;
+    max-height: 700px;
+
+}
+
+
+.markdownPreviewBody{
+    background-color: var(--body-bg-color);
+    border: 1px solid var(--title-color);
+    border-radius: 10px;
+}
+
+
+/*Mood*/
+.moodBody{
+    background-color: #2f383e;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+    max-height: 55vh;
+    overflow-y: auto;
+    border: 1px solid var(--title-color);
+    min-height: 30vh;
+}
+.moodItem{
+    padding:0;
+    justify-content: space-between;
+    /*border-bottom: 1px solid var(--title-color);*/
+    color: var(--main-text-color);
+}
+.moodButton{
+    background-color: var(--body-bg-color);
+    border: 1px solid var(--title-color);
+    border-radius: 10px 10px 0 0;
+    border-bottom: none;
+}

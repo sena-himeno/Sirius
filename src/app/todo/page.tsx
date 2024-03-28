@@ -19,7 +19,7 @@ const TodoListPage = () => {
     };
 
     return (
-        <div className={`container-full  ${styles.todoListContainer}`}>
+        <div className={`container-fluid  ${styles.todoListContainer}`}>
             <div className={`col-12 `}>
                 <div className={`col-3 ${styles.buttonBlock}`}>
                 <button className={` ${styles.todoListControlButton}  ${showTodoList ? styles.buttonChoose : styles.todoListTableButton}`}  onClick={handleToggleTodoList} >

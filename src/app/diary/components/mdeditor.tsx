@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {MDEditorProps} from '../../interface/diary'
 import {createMarkdownFile} from "@/app/utils/diary";
 import {getDate} from "@/app/utils/common";
+import styles from '@/style/diary.module.css'
 
 
 const AUTO_SAVE_CHANGE_COUNT = 20;
@@ -36,11 +37,13 @@ const MDEditorComponent: React.FC<MDEditorProps> = ({ url }) => {
             };
 
             fetchMarkdownFile();
+            setIsSaved(true);
         }
     }, [url]);
 
     const handleEditorChange = (value: string | undefined) => {
         setValue(value ?? '');
+        setIsSaved(false)
         setEditCount(count => count + 1);  // 变更统计 用来自动保存
     };
 
@@ -58,11 +61,12 @@ const MDEditorComponent: React.FC<MDEditorProps> = ({ url }) => {
         } catch (error) {
             console.error('Error saving file:', error);
         }
+        setIsSaved(true);
     };
 
 
     const defaultContent = (value :string) => {
-        return value === '' ? "还没有任何内容，别忘记了 / 读取中" : value ;
+        return value === '' ? "No thing / Loading" : value ;
     }
 
     useEffect(() => {
@@ -71,23 +75,64 @@ const MDEditorComponent: React.FC<MDEditorProps> = ({ url }) => {
         }
     }, [editCount]);
 
+    const [showMDEditor, setShowMDEditor] = useState(true);
+
+    const handleToggleMDEditor = () => {
+        setShowMDEditor(true);
+    };
+
+    const handleToggleMDEditorShort = () => {
+        setShowMDEditor(false);
+    };
+
+    const [isSaved, setIsSaved] = useState<boolean>(true);
+
+
     return (
-        <div className="container">
-            <h2>Diary Editor</h2>
-            <MDEditor
-                value={String(defaultContent(value))}
-                style={{ height: '500px' }}
-                onChange={handleEditorChange}
-            />
-            <div>
-                <button className="btn btn-primary" onClick={handleSaveFile}>
-                    Save
-                </button>
-                <h3>Diary Preview</h3>
-                <div className="bg-light p-3" style={{ maxHeight: '55vh', overflowY: 'auto' }} ref={divRef}>
-                    <MDEditor.Markdown source={String(defaultContent(value)) || ''} />
+        <div className={`${styles.markdownContainer} container`}>
+            <div className={`col-12 row`}>
+                <div className={`col-1`}>
+
                 </div>
+            <div className={`row col-4 ${styles.buttonBlock}`}>
+                <button
+                    className={`col-6 ${styles.todoListControlButton}  ${showMDEditor ? styles.buttonChoose : styles.todoListTableButton}`}
+                    onClick={handleToggleMDEditor}>
+                    Diary Editor
+                </button>
+                <button
+                    className={`col-6 ${styles.todoListControlButton} ${!showMDEditor ? styles.buttonChoose : styles.todoListTableButton}`}
+                    onClick={handleToggleMDEditorShort}>
+                    Diary Preview
+                </button>
+
             </div>
+                {
+                    !isSaved && <button  className={`col-2 ${styles.saveButton} ${styles.todoListControlButton}`} onClick={handleSaveFile}>Save</button>
+                }
+            </div>
+
+            <div className={styles.todoListContext}>
+                {
+                    showMDEditor ?
+                        <div className={styles.mdeditorBody}>
+                            <MDEditor className={styles.MDEditor}
+                                      value={String(defaultContent(value))}
+                                      onChange={handleEditorChange}
+                                      preview={"edit"}
+                                      height={700}
+                            />
+                        </div> :
+                        <div>
+                            <div className={`p-3 ${styles.markdownPreviewBody}`} ref={divRef}>
+                                <MDEditor.Markdown className={`${styles.diaryPreview}`}
+                                                   source={String(defaultContent(value)) || ''}
+                                />
+                            </div>
+                        </div>
+                }
+            </div>
+
         </div>
     );
 };

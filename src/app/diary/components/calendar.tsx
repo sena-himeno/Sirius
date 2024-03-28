@@ -58,8 +58,8 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateChange }) =
     };
 
     return (
-        <div className="  offset-md-1">
-            <Calendar
+        <div className={`offset-md-1 ${styles.container}`}>
+            <Calendar className={`${styles.calendar} `}
                 onClickDay={handleClick}
                 onChange={handleDateChange}
                 value={selectedDate as Date}

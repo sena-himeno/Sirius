@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import CalendarComponent from "./components/calendar";
 import MDEditorComponent from "./components/mdeditor";
-import MoodTracker from "./components/currentMonthMood";
+import styles from '@/style/diary.module.css';
+import MoodTracker from "@/app/diary/components/currentMonthMood";
 
 export default function Page() {
     const [dateFileName, setMdFileName] = useState(() => {
@@ -19,7 +20,7 @@ export default function Page() {
     const filePath = `/diary/${dateFileName}.md`;
 
     return (
-        <div className="container-fluid mt-6">
+        <div className={`container-fluid  ${styles.container}`}>
             <div className="row">
                 <div className="col-md-8">
                     <MDEditorComponent url={filePath}/>
