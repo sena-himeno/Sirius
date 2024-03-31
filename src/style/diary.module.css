@@ -1,4 +1,3 @@
-
 .container{
     max-width: 1600px;
     margin: 0 auto;
@@ -36,7 +35,7 @@
     padding-right : 0.75rem;
 }
 .todoListControlButton:hover{
-    background-color: var(--title-color);
+    background-color: var(--common-button-hover-bg);
     color:var(--strong-text-color)
 }
 
@@ -95,4 +94,8 @@
     border: 1px solid var(--title-color);
     border-radius: 10px 10px 0 0;
     border-bottom: none;
+}
+.moodButton:hover{
+    color: var(--title-color);
+    background-color: var(--common-button-hover-bg);
 }

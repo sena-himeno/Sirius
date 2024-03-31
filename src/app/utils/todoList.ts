@@ -54,6 +54,15 @@ export const getAllTodoList = async () => {
         throw error;
     }
 };
+export const getInProgress = async () => {
+    try {
+        const fileName = `in-progress`;
+        return await getTodoList(fileName);
+    } catch (error) {
+        console.error('get all todo lists error: ', error);
+        throw error;
+    }
+};
 
 export const addTodoEvent = async ( todoEvent: TodoEvent) => {
     try {

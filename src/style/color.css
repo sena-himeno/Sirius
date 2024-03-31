@@ -12,11 +12,17 @@
     }
 
 
-    /*dark bg*/
+    /*bg*/
     --body-bg-color: #2f383e;
 
     --table-bg-color: #2f383e;
 
+    --editor-bg: rgba(50, 67, 88, 0.38);
+
+    --container-bg : rgb(50, 67, 88);
+
+
+    /*text*/
     --title-color: rgba(255, 0, 255, 0.77);
 
     --other-title-color: #469d79;
@@ -25,11 +31,20 @@
 
     --strong-text-color: #469d79;
 
+
+
+    /* button */
+    --common-button-hover-bg:#196292;
+
+    --common-button:#2296e6;
+
+
+
+    /*ico*/
     --ico-color: rgba(255, 174, 255, 0.77);
 
-    --editor-bg: rgba(50, 67, 88, 0.38);
 
-    --container-bg : rgb(50, 67, 88);
+
 
     --color1: #2f383e;
 
@@ -71,6 +86,5 @@
 
     --color20: #b39876;
 
-/*    markdown editor*/
 
 }

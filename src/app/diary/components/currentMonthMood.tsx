@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+
+
+
+
 import { Button, Typography, List, ListItem, ListItemText, Dialog, DialogTitle, DialogContent, DialogActions, Container, Grid } from '@mui/material';
 import { fetchMoodData, postCurrentDayMood, checkMoodFileExists ,MOOD_CHOOSE} from '../../utils/diary';
 import styles from '@/style/diary.module.css';
@@ -47,14 +51,13 @@ const MoodTracker: React.FC<{ currentDate: string }> = ({ currentDate }) => {
                     <div className={`col-2`}>
 
                     </div >
-                    <button className={`${styles.moodButton} col-8`} onClick={handleAddMood}>添加/修改今天的心情</button>
+                    <button className={`${styles.moodButton} col-8`} onClick={handleAddMood}>{currentDate.substring(0, 7)} Mood </button>
                     </div>
                     <div className={`row`}>
                     <div className={`col-1`}>
 
                     </div>
                     <div className={`col-11 ${styles.moodBody}`} >
-                        <h4 className={``}>{currentDate.substring(0, 7)}</h4>
                         <List>
                             {moodData.map(({ day, mood }) => (
                                 <ListItem key={day} className={`${styles.moodItem}`} >

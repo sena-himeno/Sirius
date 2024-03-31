@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import TodoList from './components/TodoListComponent';
 import TodoListShort from './components/TodoListComponentsShort';
-import { Button} from 'react-bootstrap';
 import styles from '@/style/todoList.module.css'
 
 const TodoListPage = () => {
