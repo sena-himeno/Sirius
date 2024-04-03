@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    distDir:'out'
+    distDir:'out',
+    publicRuntimeConfig:{
+        diary:false,
+        todoList:false
+    }
 };
 
 export default nextConfig;

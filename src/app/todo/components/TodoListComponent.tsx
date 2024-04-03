@@ -5,20 +5,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../../style/todoList.module.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { TodoListComponent } from './TodoListTableComponent';
-import { TodoEvent } from '../../interface/todoList';
-import { doneEvent, getAllTodoList, remakeEvent, startEvent } from "@/app/utils/todoList";
+import { type TodoEvent } from '../../interface/todoList';
+import { doneEvent, getAllTodoList, remakeEvent, startEvent } from '@/app/utils/todoList';
 import AddTodoEventForm from './AddTodoEventForm';
-import {SaveButton} from "@/app/todo/components/SaveButton";
+import { SaveButton } from '@/app/todo/components/SaveButton';
 
-
-
-const TodoList  = () => {
+const TodoList = (): React.JSX.Element => {
     const [updatedItems, setUpdatedItems] = useState<TodoEvent[]>([]);
     const [isSaved, setIsSaved] = useState<boolean>(true);
 
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
         try {
-            const data = await getAllTodoList();
+            const data = await getAllTodoList(true);
             setUpdatedItems(data);
         } catch (error) {
             console.error('Error fetching todo list:', error);
@@ -26,7 +24,8 @@ const TodoList  = () => {
     };
 
     useEffect(() => {
-        fetchData();
+        void fetchData().then(r => {
+        });
     }, []);
 
     const handleUpdateItems = async (index: number, action: string, addTime: string, title: string) => {
@@ -57,7 +56,7 @@ const TodoList  = () => {
     const memoizedValues = useMemo(() => {
         const pendingItems = updatedItems.filter(item => item.status === 'pending');
         const inProgressItems = updatedItems.filter(item => item.status === 'in-progress');
-        const doneItems = updatedItems.filter(item => item.status === 'done').reverse() ;  //存的是旧的在上 所以先反转再用
+        const doneItems = updatedItems.filter(item => item.status === 'done').reverse(); // 存的是旧的在上 所以先反转再用
 
         return { pendingItems, inProgressItems, doneItems };
     }, [updatedItems]);
@@ -65,7 +64,7 @@ const TodoList  = () => {
     return (
             <div className={`${styles.todoContainer} row shadow-lg p-3 mb-5`}>
                 <DndProvider backend={HTML5Backend}>
-                    <div className={`col-md-6 col-lg-4  `}>
+                    <div className={'col-md-6 col-lg-4  '}>
                         <TodoListComponent
                             key={JSON.stringify(memoizedValues.pendingItems)}
                             title="PENDING"
@@ -82,7 +81,7 @@ const TodoList  = () => {
                             {!isSaved && <SaveButton updatedItems={updatedItems} setIsSaved={setIsSaved}/>}
                         </div>
                     </div>
-                    <div className={`col-md-6 col-lg-4   `}>
+                    <div className={'col-md-6 col-lg-4   '}>
                         <TodoListComponent
                             key={JSON.stringify(memoizedValues.inProgressItems)}
                             title="IN_PROGRESS"
@@ -93,7 +92,7 @@ const TodoList  = () => {
                             onUpdateItems={handleUpdateItems}
                         />
                     </div>
-                    <div className={`col-md-6 col-lg-4 `}>
+                    <div className={'col-md-6 col-lg-4 '}>
                         <TodoListComponent
                             key={JSON.stringify(memoizedValues.doneItems)}
                             title="DONE_ITEM"
@@ -113,6 +112,5 @@ const TodoList  = () => {
             </div>
     );
 };
-
 
 export default TodoList;

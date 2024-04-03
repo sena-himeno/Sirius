@@ -1,138 +1,139 @@
-import React, { useEffect, useState } from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import { TodoListComponent } from './TodoListTableComponentShort';
-import { TodoEvent } from '../../interface/todoList';
-import { TimelineComponent, TodoDetailDialog, AddTodoDialog } from './TodoListComponentShortUI';
-import { getBasicTodoList, getShortTodoList, postShortTodoList } from '@/app/utils/todoList';
-import { getDate } from "@/app/utils/common";
-import { Button } from "@mui/material";
-import styles from '@/style/todoList.module.css';
-import { SaveButtonShort } from './SaveButton';
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
+import React, { useEffect, useState } from 'react'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap-icons/font/bootstrap-icons.css'
+import { TodoListComponent } from './TodoListTableComponentShort'
+import { type TodoEvent } from '../../interface/todoList'
+import { TimelineComponent, TodoDetailDialog, AddTodoDialog } from './TodoListComponentShortUI'
+import { getBasicTodoList, getShortTodoList } from '@/app/utils/todoList'
+import { getDate } from '@/app/utils/common'
+import { Button } from '@mui/material'
+import styles from '@/style/todoList.module.css'
+import { SaveButtonShort } from './SaveButton'
 
 const TodoListShort: React.FC = () => {
-    const [baseTodoList, setBaseTodoList] = useState<TodoEvent[]>([]);
-    const [inProgressItems, setInProgressItems] = useState<TodoEvent[]>([]);
-    const [addTodoDialogOpen, setAddTodoDialogOpen] = useState(false);
-    const [todoDetailDialogOpen, setTodoDetailDialogOpen] = useState(false);
-    const [selectedTodo, setSelectedTodo] = useState<TodoEvent | null>(null);
-    const [sortedInProgressItems, setSortedInProgressItems] = useState<TodoEvent[]>([]);
-    const [isSaved, setIsSaved] = useState(false);
-    const [dialogOpen, setDialogOpen] = useState(false);
+    const [baseTodoList, setBaseTodoList] = useState<TodoEvent[]>([])
+    const [inProgressItems, setInProgressItems] = useState<TodoEvent[]>([])
+    const [addTodoDialogOpen, setAddTodoDialogOpen] = useState(false)
+    const [todoDetailDialogOpen, setTodoDetailDialogOpen] = useState(false)
+    const [selectedTodo, setSelectedTodo] = useState<TodoEvent | null>(null)
+    const [sortedInProgressItems, setSortedInProgressItems] = useState<TodoEvent[]>([])
+    const [isSaved, setIsSaved] = useState(false)
+    const [dialogOpen, setDialogOpen] = useState(false)
+
+    useEffect((): void => {
+        void fetchTodoList().then(r => {
+        })
+    }, [])
 
     useEffect(() => {
-        fetchTodoList();
-    }, []);
+        sortInProgressItems()
+    }, [baseTodoList, inProgressItems])
 
-    useEffect(() => {
-        sortInProgressItems();
-    }, [baseTodoList, inProgressItems]);
+    const fetchTodoList = async (): Promise<void> => {
+        const basicTodoList: TodoEvent[] = await getBasicTodoList()
+        const fetchInProgressItems: TodoEvent[] = await getShortTodoList(getDate())
+        setBaseTodoList(basicTodoList)
+        setInProgressItems(fetchInProgressItems)
+    }
 
-    const fetchTodoList = async () => {
-        const basicTodoList: TodoEvent[] = await getBasicTodoList();
-        const fetchInProgressItems = await getShortTodoList(getDate());
-        setBaseTodoList(basicTodoList);
-        setInProgressItems(fetchInProgressItems);
-    };
+    const sortInProgressItems = (): void => {
+        const sortedItems = [...inProgressItems].sort((a, b) => a.addTime.localeCompare(b.addTime))
+        setSortedInProgressItems(sortedItems)
+    }
 
-    const sortInProgressItems = () => {
-        const sortedItems = [...inProgressItems].sort((a, b) => a.addTime.localeCompare(b.addTime));
-        setSortedInProgressItems(sortedItems);
-    };
-
-    const findTodoByTitleAndAddTime = (items: TodoEvent[], title: string, addTime: string) => {
+    const findTodoByTitleAndAddTime = (items: TodoEvent[], title: string, addTime: string): TodoEvent | undefined => {
         return items.find(item => (item.title + item.addTime) === (title + addTime));
-    };
+    }
 
-    const updateInProgressItems = (action: string, addTime: string, title: string) => {
+    const updateInProgressItems = (action: string, addTime: string, title: string): void => {
         setInProgressItems(prevItems => {
-            let inProgressItemsCopy = [...prevItems];
-            let updatedItem;
+            const inProgressItemsCopy = [...prevItems]
+            let updatedItem
             if (action === 'ADD') {
-                updatedItem = findTodoByTitleAndAddTime(baseTodoList, title, addTime);
+                updatedItem = findTodoByTitleAndAddTime(baseTodoList, title, addTime)
             } else {
-                updatedItem = findTodoByTitleAndAddTime(inProgressItemsCopy, title, addTime);
+                updatedItem = findTodoByTitleAndAddTime(inProgressItemsCopy, title, addTime)
             }
-            if (updatedItem) {
+            if (updatedItem != null) {
                 if (action === 'REMAKE') {
-                    const itemToRemoveIndex = inProgressItemsCopy.findIndex(item => (item.title + item.addTime) === (title + addTime));
+                    const itemToRemoveIndex = inProgressItemsCopy.findIndex(item => (item.title + item.addTime) === (title + addTime))
                     if (itemToRemoveIndex !== -1) {
-                        inProgressItemsCopy.splice(itemToRemoveIndex, 1);
-                        setIsSaved(true);
+                        inProgressItemsCopy.splice(itemToRemoveIndex, 1)
+                        setIsSaved(true)
                     } else {
-                        console.log('Item not found:', title, addTime);
+                        console.log('Item not found:', title, addTime)
                     }
                 } else if (action === 'ADD') {
-                    setTodoDetailDialogOpen(true);
-                    setSelectedTodo(updatedItem);
+                    setTodoDetailDialogOpen(true)
+                    setSelectedTodo(updatedItem)
                 }
             } else {
-                console.log('Item not found:', title, addTime);
+                console.log('Item not found:', title, addTime)
             }
-            return inProgressItemsCopy;
-        });
-    };
+            return inProgressItemsCopy
+        })
+    }
 
-    const handleUpdateItems = (index: number, action: string, addTime: string, title: string) => {
-        if (action === "CANCEL") {
-            console.log("CANCEL");
+    const handleUpdateItems = (index: number, action: string, addTime: string, title: string): void => {
+        if (action === 'CANCEL') {
+            console.log('CANCEL')
             setBaseTodoList(prevItems => {
-                const baseTodoListCopy = [...prevItems];
-                const itemToRemoveIndex = baseTodoList.findIndex(item => (item.title + item.addTime) === (title + addTime));
-                console.log(itemToRemoveIndex);
+                const baseTodoListCopy = [...prevItems]
+                const itemToRemoveIndex = baseTodoList.findIndex(item => (item.title + item.addTime) === (title + addTime))
+                console.log(itemToRemoveIndex)
                 if (itemToRemoveIndex !== -1) {
-                    baseTodoListCopy.splice(itemToRemoveIndex, 1);
-                    setIsSaved(true);
+                    baseTodoListCopy.splice(itemToRemoveIndex, 1)
+                    setIsSaved(true)
                 } else {
-                    console.log('Item not found:', title, addTime);
+                    console.log('Item not found:', title, addTime)
                 }
-                return baseTodoListCopy;
-            });
+                return baseTodoListCopy
+            })
         } else {
-            updateInProgressItems(action, addTime, title);
+            updateInProgressItems(action, addTime, title)
         }
-    };
+    }
 
-    const chooseUpdateItems = (addTime: string) => {
+    const chooseUpdateItems = (addTime: string): void => {
         setInProgressItems(prevItems => {
-            const newTodoList = [...prevItems];
-            if (selectedTodo) {
-                const newTodo: TodoEvent = { ...selectedTodo, addTime: addTime };
-                newTodoList.push(newTodo);
+            const newTodoList = [...prevItems]
+            if (selectedTodo != null) {
+                const newTodo: TodoEvent = { ...selectedTodo, addTime }
+                newTodoList.push(newTodo)
             } else {
-                console.error('selectedTodo is undefined or null');
+                console.error('selectedTodo is undefined or null')
             }
-            return newTodoList;
-        });
-    };
-
+            return newTodoList
+        })
+    }
 
     // ui controller
 
-    const handleConfirm = (addTime: string) => {
-        chooseUpdateItems(addTime);
-        setTodoDetailDialogOpen(false);
-        setIsSaved(true);
-    };
+    const handleConfirm = (addTime: string): void => {
+        chooseUpdateItems(addTime)
+        setTodoDetailDialogOpen(false)
+        setIsSaved(true)
+    }
 
-    const handleOpenAddTodoDialog = () => {
-        setAddTodoDialogOpen(true);
-    };
+    const handleOpenAddTodoDialog = (): void => {
+        setAddTodoDialogOpen(true)
+    }
 
-    const handleCloseAddTodoDialog = () => {
-        setAddTodoDialogOpen(false);
-    };
+    const handleCloseAddTodoDialog = (): void => {
+        setAddTodoDialogOpen(false)
+    }
 
-    const handleAddTodo = (title: string) => {
-        setBaseTodoList(prevList => [...prevList, { title, status: 'pending', startTime: '', endTime: '', addTime: '' }]);
-        setIsSaved(true);
-    };
+    const handleAddTodo = (title: string): void => {
+        setBaseTodoList(prevList => [...prevList, { title, status: 'pending', startTime: '', endTime: '', addTime: '' }])
+        setIsSaved(true)
+    }
 
-    const handleCloseDialog = () => {
-        setDialogOpen(false);
-    };
+    const handleCloseDialog = (): void => {
+        setDialogOpen(false)
+    }
 
     // end
 
@@ -177,16 +178,18 @@ const TodoListShort: React.FC = () => {
                     </div>
                 </DndProvider>
             </div>
-            {selectedTodo && (
+            {(selectedTodo != null) && (
                 <TodoDetailDialog
                     open={todoDetailDialogOpen}
-                    onClose={() => setTodoDetailDialogOpen(false)}
+                    onClose={() => {
+                        setTodoDetailDialogOpen(false)
+                    }}
                     onConfirm={handleConfirm}
                     todo={selectedTodo}
                 />
             )}
         </div>
-    );
-};
+    )
+}
 
-export default TodoListShort;
+export default TodoListShort

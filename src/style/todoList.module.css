@@ -85,3 +85,13 @@
 .listUnit {
 
 }
+
+.TimeLineItem{
+    min-height: 50px;
+}
+.TimeLineItemTime{
+    color:var(--main-text-color)
+}
+.TimeLineItemTitle{
+    color:var(--strong-text-color)
+}

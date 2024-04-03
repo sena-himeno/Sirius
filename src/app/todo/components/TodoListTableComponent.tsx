@@ -4,12 +4,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../../style/todoList.module.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Button } from '@mui/material';
-import {TodoEvent,TodoListComponentProps,TodoItemProps} from '../../interface/todoList';
+import { type TodoEvent, type TodoListComponentProps, type TodoItemProps } from '../../interface/todoList';
 
 export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, buttonText, statusFilter, items, renderContent, onUpdateItems }) => {
     const [filteredItems, setFilteredItems] = useState<TodoEvent[]>(items);
 
-    const moveItem = (dragIndex: number, hoverIndex: number) => {
+    const moveItem = (dragIndex: number, hoverIndex: number): TodoEvent[] | null => {
         const dragItem = filteredItems[dragIndex];
         setFilteredItems(prevItems => {
             const updatedItems = [...prevItems];
@@ -17,17 +17,15 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
             updatedItems.splice(hoverIndex, 0, dragItem);
             return updatedItems;
         });
+        return null;
     };
-
     useLayoutEffect(() => {
     }, [filteredItems, onUpdateItems]);
 
-    const handleButtonClick = (index: number, action: string, addTime: string, title: string) => {
-        console.log("button down")
+    const handleButtonClick = (index: number, action: string, addTime: string, title: string): void => {
+        console.log('button down')
         onUpdateItems(index, action, addTime, title);
     };
-
-
     return (
         <div className={styles.box}>
                 <table className={styles.listTable}>
@@ -35,15 +33,19 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
                 <tr>
                     <th className={styles.listButton}>{buttonText === 'DONE' ? 'startTime' : buttonText}</th>
                     <th className={styles.listTitle}>
-                        {title === "PENDING" ? (
+                        {title === 'PENDING'
+                        ? (
                             <i className="bi bi-hourglass-top"></i>
-                        ) : title === "IN_PROGRESS" ? (
+                        )
+                        : title === 'IN_PROGRESS'
+                        ? (
                             <i className="bi bi-hourglass-split"></i>
-                        ) : (
+                        )
+                        : (
                             <i className="bi bi-hourglass-bottom"></i>
                         )}
                     </th>
-                    {statusFilter === "done" ? <th className={styles.listButton}>endTime</th> : <th className={styles.listButton}>{buttonText === 'CANCEL' ? 'START' : 'DONE'}</th>}
+                    {statusFilter === 'done' ? <th className={styles.listButton}>endTime</th> : <th className={styles.listButton}>{buttonText === 'CANCEL' ? 'START' : 'DONE'}</th>}
                 </tr>
                 </thead>
                 <tbody>
@@ -65,19 +67,17 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
     );
 };
 
-
-
 export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, renderContent, statusFilter, buttonText, onButtonClick }) => {
-    const handleButtonClicked = (action: string, item: TodoEvent) => {
+    const handleButtonClicked = (action: string, item: TodoEvent): void => {
         onButtonClick(index, action, item.addTime, item.title);
     };
 
     const ref = React.useRef<HTMLTableRowElement>(null);
 
-    const [{ isOver }, drop] = useDrop({
+    const [, drop] = useDrop({
         accept: 'todoItem',
         hover: (item: { index: number }, monitor) => {
-            if (!ref.current) {
+            if (ref.current == null) {
                 return;
             }
             const dragIndex = item.index;
@@ -88,7 +88,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
             const hoverBoundingRect = ref.current?.getBoundingClientRect();
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
             const clientOffset = monitor.getClientOffset();
-            if (!clientOffset) {
+            if (clientOffset == null) {
                 return;
             }
             const hoverClientY = clientOffset.y - hoverBoundingRect.top;
@@ -102,8 +102,8 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
             item.index = hoverIndex;
         },
         collect: (monitor) => ({
-            isOver: !!monitor.isOver(),
-        }),
+            isOver: !!monitor.isOver()
+        })
     });
 
     const [{ isDragging }, drag] = useDrag({
@@ -112,8 +112,8 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
             return { index };
         },
         collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-        }),
+            isDragging: monitor.isDragging()
+        })
     });
 
     drag(drop(ref));
@@ -122,22 +122,22 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
         <tr ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>
             <td className={`col-md-3 ${styles.listButton}`}>
 
-                {statusFilter === "done" ? item.startTime :
-                    <Button className={styles.listButton} onClick={() => handleButtonClicked(buttonText === 'CANCEL' ? 'CANCEL' : 'REMAKE', item)}>
-                        {buttonText === 'CANCEL' ? <i className="bi bi-eraser-fill"></i> :   <i className="bi bi-hourglass-top"></i>}
+                {statusFilter === 'done'
+? item.startTime
+                    : <Button className={styles.listButton} onClick={() => { handleButtonClicked(buttonText === 'CANCEL' ? 'CANCEL' : 'REMAKE', item); }}>
+                        {buttonText === 'CANCEL' ? <i className="bi bi-eraser-fill"></i> : <i className="bi bi-hourglass-top"></i>}
                     </Button>
                 }
             </td>
             <td className={`col-md-6 ${styles.listContext}`}>{renderContent(item)}</td>
-            {statusFilter === "done" ?
-                <td className={styles.listButton}>{item.endTime}</td> :
-                <td className={styles.listButton}>
-                    <Button className={`col-md-3 ${styles.listButton}`} onClick={() => handleButtonClicked(buttonText === 'CANCEL' ? 'START' : 'DONE', item)}>
-                        {buttonText === 'CANCEL' ?  <i className="bi bi-hourglass-split"></i> : <i className="bi bi-hourglass-bottom"></i>}
+            {statusFilter === 'done'
+                ? <td className={styles.listButton}>{item.endTime}</td>
+                : <td className={styles.listButton}>
+                    <Button className={`col-md-3 ${styles.listButton}`} onClick={() => { handleButtonClicked(buttonText === 'CANCEL' ? 'START' : 'DONE', item); }}>
+                        {buttonText === 'CANCEL' ? <i className="bi bi-hourglass-split"></i> : <i className="bi bi-hourglass-bottom"></i>}
                     </Button>
                 </td>
             }
         </tr>
     );
-
 };

@@ -1,10 +1,10 @@
 import fs from 'fs/promises';
 import path from 'path';
-import {NextApiRequest, NextApiResponse} from "next";
+import { type NextApiRequest, type NextApiResponse } from 'next';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function (req: NextApiRequest, res: NextApiResponse): Promise<any> {
     if (req.method === 'POST') {
-        const {fileName} = req.body;
+        const { fileName } = req.body;
 
         const filePath = path.join(process.cwd(), 'public', 'todoList', `${fileName}.json`);
 
@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(200).json(jsonData);
         } catch (error) {
             console.error('Error:', error);
-            res.status(500).json({error: 'Internal Server Error'});
+            res.status(500).json({ error: 'Internal Server Error' });
         }
     }
 }

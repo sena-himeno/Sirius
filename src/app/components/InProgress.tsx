@@ -1,33 +1,15 @@
-'use client'
-import React, {useEffect, useState} from 'react';
-import {TodoEvent} from "@/app/interface/todoList";
-import {getInProgress} from "@/app/utils/todoList";
+import { type TodoEvent } from '@/app/interface/todoList'
+import React from 'react';
 
-
-const InProgress = () => {
-    const [inProgress, setInProgress] = useState<TodoEvent[]>([]);
-    const fetchDate = async() =>{
-        try {
-            const data = await getInProgress();
-            setInProgress(data);
-        } catch (error) {
-            console.error('Error fetching todo list:', error);
-        }
-    }
-
-    useEffect(() => {
-        fetchDate();
-    }, []);
-
-    return (
-        <div>
-            <div className={`col-md-6 col-lg-4   `}>
-                {inProgress.map((event, index) => (
+const InProgress: React.FC<{ todoItem: TodoEvent[] }> = ({ todoItem }) => {
+  return (
+            <div className={'col-md-6 col-lg-4   '}>
+                <h3>in progress count{todoItem.length}</h3>
+                {todoItem.map((event, index) => (
                     <div key={index}>{event.title}</div>
                 ))}
             </div>
-        </div>
-    );
-};
+  )
+}
 
-export default InProgress;
+export default InProgress

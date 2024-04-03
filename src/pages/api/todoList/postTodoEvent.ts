@@ -1,29 +1,22 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler (req: NextApiRequest, res: NextApiResponse): Promise<any> {
     if (req.method === 'POST') {
         const { fileName, todoEvent, isUpdateList } = req.body;
-1
         if (!fileName || !todoEvent || typeof isUpdateList === 'undefined') {
-            return res.status(400).json({ error: 'Missing file name, todo event data, or isUpdateList parameter' });
+            res.status(400).json({ error: 'Missing file name, todo event data, or isUpdateList parameter' }); return;
         }
-
         const filePath = path.join(process.cwd(), 'public', 'todoList', `${fileName}.json`);
-
         try {
             const fileData = await fs.readFile(filePath, 'utf-8');
             let jsonData = JSON.parse(fileData);
-
-            if (isUpdateList) {
+            if (Boolean(isUpdateList)) {
                 jsonData = todoEvent;
             } else {
                 jsonData.push(todoEvent);
             }
-            // console.log(jsonData+"jsonData");
-            // console.log(fileData+"fileData");
-
             await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), 'utf-8');
 
             res.status(200).json({ success: true });

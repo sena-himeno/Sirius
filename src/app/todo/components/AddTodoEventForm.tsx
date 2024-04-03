@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
-import { TodoEvent } from '../../interface/todoList';
+import { type TodoEvent } from '../../interface/todoList';
 import { addTodoEvent } from '@/app/utils/todoList';
 
 interface AddTodoEventFormProps {
@@ -14,14 +14,14 @@ const AddTodoEventForm: React.FC<AddTodoEventFormProps> = ({ onUpdate }: AddTodo
     const [importance, setImportance] = useState('');
     const [submitting, setSubmitting] = useState(false); // State to manage form submission
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
         if (submitting) return;
 
         const newTodoEvent: TodoEvent = {
-            title: title,
+            title,
             status: 'pending',
-            endTime: endTime,
+            endTime,
             addTime: new Date().toLocaleDateString(),
             startTime: ''
         };
@@ -39,11 +39,11 @@ const AddTodoEventForm: React.FC<AddTodoEventFormProps> = ({ onUpdate }: AddTodo
         }
     };
 
-    const handleOpenDialog = () => {
+    const handleOpenDialog = (): void => {
         setOpenDialog(true);
     };
 
-    const handleCloseDialog = () => {
+    const handleCloseDialog = (): void => {
         setOpenDialog(false);
     };
 
@@ -56,11 +56,12 @@ const AddTodoEventForm: React.FC<AddTodoEventFormProps> = ({ onUpdate }: AddTodo
             <Dialog open={openDialog} onClose={handleCloseDialog}>
                 <DialogTitle>Add Todo Event</DialogTitle>
                 <DialogContent>
+                    {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
                     <form onSubmit={handleSubmit}>
                         <TextField
                             label="Title"
                             value={title}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setTitle(e.target.value); }}
                             required
                             fullWidth
                         />
@@ -68,7 +69,7 @@ const AddTodoEventForm: React.FC<AddTodoEventFormProps> = ({ onUpdate }: AddTodo
                             label="End Time"
                             type="date"
                             value={endTime}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEndTime(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEndTime(e.target.value); }}
                             required
                             fullWidth
                             InputLabelProps={{ shrink: true }}
@@ -77,7 +78,7 @@ const AddTodoEventForm: React.FC<AddTodoEventFormProps> = ({ onUpdate }: AddTodo
                             <InputLabel>Importance</InputLabel>
                             <Select
                                 value={importance}
-                                onChange={(e: any) => setImportance(e.target.value as string)}
+                                onChange={(e: any) => { setImportance(e.target.value as string); }}
                                 required
                             >
                                 <MenuItem value="">Select Importance</MenuItem>

@@ -56,7 +56,8 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
                         buttonText={buttonText}
                         onButtonClick={handleButtonClick}
                     />
-                )): <td> no thing</td> }
+                )):<tr><td>no thing</td></tr>
+                }
                 </tbody>
             </table>
         </div>
