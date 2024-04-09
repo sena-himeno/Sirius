@@ -1,23 +1,9 @@
 .header {
     border-radius: 10px;
     margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    border-bottom:1px solid var(--title-color);
-}
-
-.toolbar {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 10px;
-}
-
-.buttonContainer {
-    display: flex;
-    align-items: center;
+    height: 60px;
+    border-bottom: 1px solid var(--title-color);
+    color:var(--title-color);
 }
 
 .button {

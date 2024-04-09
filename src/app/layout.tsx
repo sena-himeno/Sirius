@@ -6,7 +6,6 @@ import '@/style/color.css';
 
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Sirius',
@@ -20,7 +19,7 @@ export default function RootLayout ({
 }>) {
   return (
       <html lang="en">
-      <body className={inter.className}>
+      <body className={''}>
       <Header />
       {children}
       </body>

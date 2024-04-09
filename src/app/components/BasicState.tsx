@@ -1,13 +1,14 @@
+'use server'
 import React from 'react';
 import { type TodoEvent } from '@/app/interface/todoList';
 import styles from '@/style/home.module.css';
-import QuadrantChart from './QuadrantChart'; // 引入QuadrantChart组件
+import QuadrantChart from './QuadrantChart';
 
 const countEventsByType = (todoItem: TodoEvent[], eventType: string, status: string): number => {
     return todoItem.filter(item => item.eventType === eventType && item.status !== status).length;
 };
 
-const BasicState: React.FC<{ todoItem: TodoEvent[], diaryContent: string | null }> = ({ todoItem, diaryContent }) => {
+const BasicState: React.FC<{ todoItem: TodoEvent[], diaryContent: string | null }> = async ({ todoItem, diaryContent }) => {
     const hasDiaryContent = diaryContent === null ? 'false' : diaryContent.length + ' char';
     const inProgressCount = todoItem.filter(item => item.status === 'in-progress').length;
     const pendingCount = todoItem.filter(item => item.status === 'pending').length;
@@ -16,6 +17,7 @@ const BasicState: React.FC<{ todoItem: TodoEvent[], diaryContent: string | null 
 
     return (
         <div className={`row ${styles.basicStateContent}`}>
+            <h4 className={'text-center'}>Basic State</h4>
             <div className="col-8">
                 <p>diary:</p>
                 <p>in progress count:</p>

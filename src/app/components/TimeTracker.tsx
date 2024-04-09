@@ -38,6 +38,7 @@ const TimeTracker = async (): Promise<React.JSX.Element> => {
     const hourValue = ((today.getHours() * 60 + today.getMinutes()) / (24 * 60) * 100).toFixed(2)
     return (
         <div className={''}>
+            <h4 className={'text-center'}>Time Progress</h4>
             <ProgressComponent mode={'month'} value={Number(dayValue)} />
             <ProgressComponent mode={'day'} value={Number(hourValue)} />
         </div>

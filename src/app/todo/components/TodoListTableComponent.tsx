@@ -26,42 +26,49 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
         onUpdateItems(index, action, addTime, title);
     };
     return (
-        <div className={styles.box}>
-                <table className={styles.listTable}>
-                <thead>
-                <tr>
-                    <th className={styles.listButton}>{buttonText === 'DONE' ? 'startTime' : buttonText}</th>
-                    <th className={styles.listTitle}>
+        <div className={''}>
+
+            <h4 className={'align-content-center text-center'}>
+                <div className={'row'}>
+                    <div className={`col-4`}>{buttonText === 'DONE' ? 'startTime' : buttonText}</div>
+                    <div className={`col-4`}>
                         {title === 'PENDING'
-                        ? (
-                            <i className="bi bi-hourglass-top"></i>
-                        )
-                        : title === 'IN_PROGRESS'
-                        ? (
-                            <i className="bi bi-hourglass-split"></i>
-                        )
-                        : (
-                            <i className="bi bi-hourglass-bottom"></i>
-                        )}
-                    </th>
-                    {statusFilter === 'done' ? <th className={styles.listButton}>endTime</th> : <th className={styles.listButton}>{buttonText === 'CANCEL' ? 'START' : 'DONE'}</th>}
-                </tr>
-                </thead>
-                <tbody>
-                {filteredItems.map((item, index) => (
-                    <TodoItem
-                        key={index}
-                        index={index}
-                        item={item}
-                        moveItem={moveItem}
-                        renderContent={renderContent}
-                        statusFilter={statusFilter}
-                        buttonText={buttonText}
-                        onButtonClick={handleButtonClick}
-                    />
-                ))}
-                </tbody>
-            </table>
+                            ? (
+                                <i className="bi bi-hourglass-top"></i>
+                            )
+                            : title === 'IN_PROGRESS'
+                                ? (
+                                    <i className="bi bi-hourglass-split"></i>
+                                )
+                                : (
+                                    <i className="bi bi-hourglass-bottom"></i>
+                                )}
+                    </div>
+                    {statusFilter === 'done'
+                        ? <div className={`${''} col-4`}>endTime</div>
+                        : <div className={`${''} col-4`}>{buttonText === 'CANCEL' ? 'START' : 'DONE'}</div>}
+                </div>
+            </h4>
+            <div className={styles.tableContent}>
+                <table className={styles.listTable}>
+                    <thead>
+                    </thead>
+                    <tbody>
+                    {filteredItems.map((item, index) => (
+                        <TodoItem
+                            key={index}
+                            index={index}
+                            item={item}
+                            moveItem={moveItem}
+                            renderContent={renderContent}
+                            statusFilter={statusFilter}
+                            buttonText={buttonText}
+                            onButtonClick={handleButtonClick}
+                        />
+                    ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };
@@ -120,7 +127,6 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
     return (
         <tr ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>
             <td className={`col-md-3 ${styles.listButton}`}>
-
                 {statusFilter === 'done'
                     ? item.startTime
                     : <Button className={styles.listButton} onClick={() => { handleButtonClicked(buttonText === 'CANCEL' ? 'CANCEL' : 'REMAKE', item); }}>

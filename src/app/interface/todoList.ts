@@ -24,6 +24,7 @@ export interface TodoEvent {
   endTime?: string
   addTime: string
   eventType?: string
+  progressRate?: number
 }
 
 export interface TodoListComponentProps {

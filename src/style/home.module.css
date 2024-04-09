@@ -4,33 +4,30 @@
     color:var(--strong-text-color)
 }
 .containerLeft{
-    padding: 1rem;
-    /*border: 1px solid var(--main-text-color);*/
-    /*border-radius: 10px;*/
-
+    padding: 0.75rem;
+    border: 1px solid var(--main-text-color);
+    border-radius: 10px;
 }
 .containerRight{
-    padding: 1rem;
     border: 1px solid var(--main-text-color);
     border-radius: 10px;
     margin-left: 5rem;
 }
 .timeTracker{
     padding: 1rem;
-    border: 1px solid var(--main-text-color);
+    /*border: 1px solid var(--main-text-color);*/
     border-radius: 10px;
 
 }
 .basicState{
-    margin-top: 2rem;
+    margin-top: 1rem;
     padding: 1rem;
-    border: 1px solid var(--main-text-color);
+    /*border: 1px solid var(--main-text-color);*/
     border-radius: 10px;
 }
 
 /*basicState*/
 .basicStateContent{
-    padding: 1rem;
 }
 
 .basicStateContent > div >p {
@@ -39,7 +36,7 @@
 
 /*TimeTracker*/
 .progressContainer + .progressContainer{
-    margin-top: 1rem;
+    padding: 0.75rem;
 }
 .timeTrackerValue {
     margin: 0 auto;
@@ -47,7 +44,37 @@
 
 /*QuadrantChart*/
 .quadrantChart{
-    padding: 1rem;
-    border: 1px solid var(--main-text-color);
+    padding: 0.75rem;
+    /*border: 1px solid var(--main-text-color);*/
     border-radius: 10px;
 }
+.defaultContent{
+    /*border: 1px solid var(--main-text-color);*/
+    border-radius: 10px;
+    margin: 0 1rem;
+    max-height: 430px;
+    overflow: auto;
+}
+.upperRight{
+    max-height: 500px;
+    min-height: 500px;
+    border-radius: 10px;
+    border-bottom: 1px solid var(--title-color);
+
+}
+.lowerRight{
+
+}
+
+/*over flow*/
+.defaultContent::-webkit-scrollbar {
+    width: 3px; /* 设置滚动条宽度 */
+}
+
+.defaultContent::-webkit-scrollbar-thumb {
+    background-color: var(--main-text-color);
+    border-radius: 3px;
+}
+
+
+

@@ -1,25 +1,16 @@
 'use client'
 import React, { useEffect, useRef } from 'react';
+// @ts-ignore
 import * as d3 from 'd3';
 
 const QuadrantChart: React.FC<{ eventCounts: number[] }> = ({ eventCounts }) => {
 	const svgRef = useRef<SVGSVGElement>(null);
 
 	useEffect(() => {
-		if (!svgRef.current || eventCounts.length !== 4) return;
-
+		if ((svgRef.current == null) || eventCounts.length !== 4) return;
 		const totalEvents = eventCounts.reduce((acc, curr) => acc + curr, 0);
-		if (totalEvents === 0) return; // Avoid division by zero
-
-		const importantUrgentSum = eventCounts[0];
-		const importantNotUrgentSum = eventCounts[1];
-		const unimportantUrgentSum = eventCounts[2];
-		const unimportantNotUrgentSum = eventCounts[3];
-
-		const importantRatio = (importantUrgentSum + importantNotUrgentSum) / totalEvents;
-		const urgentRatio = (importantUrgentSum + unimportantUrgentSum) / totalEvents;
-
-		const width = 400;
+		if (totalEvents === 0) return;
+		const width = 450;
 		const height = 300;
 		const margin = { top: 20, right: 20, bottom: 40, left: 40 };
 		const innerWidth = width - margin.left - margin.right;
@@ -37,48 +28,63 @@ const QuadrantChart: React.FC<{ eventCounts: number[] }> = ({ eventCounts }) => 
 			.attr('width', width)
 			.attr('height', height);
 
-		svg.selectAll("*").remove(); // Clear previous content
+		svg.selectAll('*').remove(); // Clear previous content
 
-		svg.append('line')
-			.attr('x1', xScale(0.5))
-			.attr('y1', margin.top)
-			.attr('x2', xScale(0.5))
-			.attr('y2', innerHeight + margin.top)
-			.attr('stroke', 'black')
-			.attr('stroke-width', 1);
-
+		svg.append('defs').append('marker')
+			.attr('id', 'arrow')
+			.attr('markerWidth', 10)
+			.attr('markerHeight', 10)
+			.attr('refX', 8)
+			.attr('refY', 3)
+			.attr('orient', 'auto')
+			.append('path')
+			.attr('d', 'M0,0 L0,6 L9,3 z')
+			.attr('fill', 'var(--title-color)');
+		const lines = [
+			{ x1: 0.5, y1: 0, x2: 0.5, y2: 1 }, // Vertical line for Urgent/Not Urgent
+			{ x1: 0, y1: 0.5, x2: 1, y2: 0.5 }, // Horizontal line for Important/Not Important
+			{ x1: 0.5, y1: 1, x2: 0.5, y2: 0 }, // Reverse vertical line for bottom
+			{ x1: 1, y1: 0.5, x2: 0, y2: 0.5 } // Reverse horizontal line for left
+		];
+		lines.forEach(line => {
+			svg.append('line')
+				.attr('x1', xScale(line.x1))
+				.attr('y1', yScale(line.y1))
+				.attr('x2', xScale(line.x2))
+				.attr('y2', yScale(line.y2))
+				.attr('stroke', 'var(--title-color)')
+				.attr('stroke-width', 1)
+				.attr('marker-end', 'url(#arrow)');
+		});
+		// Add text labels
 		svg.append('text')
 			.attr('x', xScale(0.5) + 5)
-			.attr('y', margin.top - 5)
+			.attr('y', margin.top + 10)
+			.style('fill', 'var(--title-color)')
 			.text('Urgent');
 
 		svg.append('text')
 			.attr('x', xScale(0.5) + 5)
-			.attr('y', height - 20)
+			.attr('y', height - 40)
+			.style('fill', 'var(--title-color)')
 			.text('Not Urgent');
-
-		svg.append('line')
-			.attr('x1', margin.left)
-			.attr('y1', yScale(0.5))
-			.attr('x2', innerWidth + margin.left)
-			.attr('y2', yScale(0.5))
-			.attr('stroke', 'black')
-			.attr('stroke-width', 1);
 
 		svg.append('text')
 			.attr('x', width - 75)
 			.attr('y', yScale(0.5) - 5)
+			.style('fill', 'var(--title-color)')
 			.text('Important');
 
 		svg.append('text')
 			.attr('x', 20)
 			.attr('y', yScale(0.5) - 5)
+			.style('fill', 'var(--title-color)')
 			.text('Not Important');
 
 		const quadrantCenters = [
 			{ x: 0.75, y: 0.75 }, // Upper Right (important and urgent)
-			{ x: 0.75, y: 0.25 }, // Lower Right (not important but urgent)
-			{ x: 0.25, y: 0.75 }, // Upper Left (important but not urgent)
+			{ x: 0.75, y: 0.25 }, // Lower Right (important but not urgent)
+			{ x: 0.25, y: 0.75 }, // Upper Left (not important but urgent)
 			{ x: 0.25, y: 0.25 } // Lower Left (not important and not urgent)
 		];
 
@@ -91,6 +97,7 @@ const QuadrantChart: React.FC<{ eventCounts: number[] }> = ({ eventCounts }) => 
 				.attr('y', yScale(center.y))
 				.attr('dy', '0.35em')
 				.attr('text-anchor', 'middle')
+				.style('fill', 'var(--other-title-color)')
 				.text(`${percentage.toFixed(2)}%`);
 		});
 	}, [eventCounts]);

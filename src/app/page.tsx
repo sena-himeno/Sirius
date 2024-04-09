@@ -23,7 +23,7 @@ export default async function Home (): Promise<React.JSX.Element> {
     }
     await fetchTodo();
   return (
-      <div className={`container-fluid ${styles.home}`}>
+      <div className={`container-fluid ${styles.home} justify-content-center mt-2`}>
           <div className={'row'}>
               <div className={`col-5 ${styles.containerLeft}`}>
                   <div className={`${styles.timeTracker}`}>
@@ -34,13 +34,24 @@ export default async function Home (): Promise<React.JSX.Element> {
                   </div>
               </div>
               <div className={`col-6 ${styles.containerRight}`}>
-                  <div className={'row'}>
-                  <div className={'col-5'}>
-                    <InProgress todoItem={todoItem.filter(item => item.status === 'in-progress')}/>
-                  </div>
-                  <div className={'col-5'}>
-                      <TimeLine todoShortItem={todoShortItem ?? []}/>
-                  </div>
+                  <div className={`row justify-content-center mt-2 ${styles.upperRight}`}>
+                      <div className={'col-5 text-center'}>
+                          <div className={styles.titleContainer}>
+                              <h4 className={'text-center'}>Todo In Progress <i className="bi bi-hourglass-split"></i>
+                              </h4>
+                          </div>
+                          <div className={`${styles.defaultContent}`}>
+                            <InProgress todoItem={todoItem.filter(item => item.status === 'in-progress')}/>
+                          </div>
+                      </div>
+                      <div className={`col-5 text-center`}>
+                          <div className={styles.titleContainer}>
+                              <h4 className={'text-center'}>Time Line</h4>
+                          </div>
+                          <div className={`${styles.defaultContent}`}>
+                              <TimeLine todoShortItem={todoShortItem ?? []}/>
+                          </div>
+                      </div>
                   </div>
               </div>
           </div>

@@ -24,7 +24,8 @@ const AddTodoEventForm: React.FC<AddTodoEventFormProps> = ({ onUpdate }: AddTodo
             endTime,
             addTime: new Date().toLocaleDateString(),
             startTime: '',
-            eventType
+            eventType,
+            progressRate: 0
         };
 
         try {

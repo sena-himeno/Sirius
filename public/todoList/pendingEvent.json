@@ -1,64 +1,20 @@
 [
   {
-    "title": "asdsasdas",
+    "title": "TAAS",
     "status": "pending",
-    "endTime": "2024-03-07",
-    "addTime": "3/9/2024",
-    "startTime": ""
-  },
-  {
-    "title": "asdsasdasasdasasdd",
-    "status": "pending",
-    "endTime": "2024-03-07",
-    "addTime": "3/9/2024",
-    "startTime": ""
-  },
-  {
-    "title": "testnN",
-    "status": "pending",
-    "endTime": "0023-12-31",
-    "addTime": "4/8/2024",
+    "endTime": "2024-04-20",
+    "addTime": "4/9/2024",
     "startTime": "",
-    "eventType": "notUrgentNotImportant"
+    "eventType": "urgentNotImportant",
+    "progressRate": 0
   },
   {
-    "title": "testnNN",
+    "title": "TAASSS",
     "status": "pending",
-    "endTime": "0023-12-31",
-    "addTime": "4/8/2024",
+    "endTime": "2024-04-20",
+    "addTime": "4/9/2024",
     "startTime": "",
-    "eventType": "notUrgentNotImportant"
-  },
-  {
-    "title": "testNY",
-    "status": "pending",
-    "endTime": "0023-12-31",
-    "addTime": "4/8/2024",
-    "startTime": "",
-    "eventType": "notUrgentImportant"
-  },
-  {
-    "title": "testNYY",
-    "status": "pending",
-    "endTime": "0023-12-31",
-    "addTime": "4/8/2024",
-    "startTime": "",
-    "eventType": "notUrgentImportant"
-  },
-  {
-    "title": "testNYYY",
-    "status": "pending",
-    "endTime": "0023-12-31",
-    "addTime": "4/8/2024",
-    "startTime": "",
-    "eventType": "notUrgentImportant"
-  },
-  {
-    "title": "testYN",
-    "status": "pending",
-    "endTime": "0023-12-31",
-    "addTime": "4/8/2024",
-    "startTime": "",
-    "eventType": "urgentNotImportant"
+    "eventType": "urgentNotImportant",
+    "progressRate": 0
   }
 ]

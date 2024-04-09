@@ -1,14 +1,24 @@
 import React from 'react';
 import Link from 'next/link';
-import { Button, Box } from '@mui/material';
+import { Button } from '@mui/material';
 import styles from '../style/header.module.css';
 
 const Header: React.FC = () => {
     return (
-        <Box className={`${styles.header}`}>
-            <Box className={styles.toolbar}>
-                <h3>Sirius</h3>
-                <Box className={styles.buttonContainer}>
+        <div className="container-fluid">
+            <div className={`row ${styles.header}  align-items-center`}>
+                <div className="col-2">
+                    <h3 className="mb-0">Sirius</h3>
+                </div>
+                <div className="col-6 text-bott">
+                    <p className="mb-0">私たちの願いは同じ空を繋いでる 私たちがしたいつかの約束と、 手に入れた誰かの記憶と妄想も</p>
+                </div>
+                <div className={`col-4 d-flex justify-content-end ${styles.buttonContainer}`}>
+                    <Link href="/">
+                        <Button disableElevation className={styles.button}>
+                            Home
+                        </Button>
+                    </Link>
                     <Link href="/diary">
                         <Button disableElevation className={styles.button}>
                             Diary
@@ -34,9 +44,9 @@ const Header: React.FC = () => {
                             Archive
                         </Button>
                     </Link>
-                </Box>
-            </Box>
-        </Box>
+                </div>
+            </div>
+        </div>
     );
 };
 
