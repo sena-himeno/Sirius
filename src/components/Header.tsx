@@ -7,7 +7,7 @@ const Header: React.FC = () => {
     return (
         <Box className={`${styles.header}`}>
             <Box className={styles.toolbar}>
-                <h3>Planner</h3>
+                <h3>Sirius</h3>
                 <Box className={styles.buttonContainer}>
                     <Link href="/diary">
                         <Button disableElevation className={styles.button}>

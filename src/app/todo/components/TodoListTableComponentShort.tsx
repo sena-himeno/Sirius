@@ -5,11 +5,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../../style/todoList.module.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Button } from '@mui/material';
-import {TodoEvent,TodoListComponentProps} from '../../interface/todoList';
+import { type TodoEvent, type TodoItemProps, type TodoListComponentProps } from '../../interface/todoList';
 
 export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, buttonText, statusFilter, items, renderContent, onUpdateItems }) => {
     const [filteredItems, setFilteredItems] = useState<TodoEvent[]>(items);
-    const moveItem = (dragIndex: number, hoverIndex: number) => {
+    const moveItem = (dragIndex: number, hoverIndex: number): void => {
         const dragItem = filteredItems[dragIndex];
         setFilteredItems(prevItems => {
             const updatedItems = [...prevItems];
@@ -22,30 +22,29 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
     useLayoutEffect(() => {
     }, [filteredItems, onUpdateItems]);
 
-    const handleButtonClick = (index: number, action: string, addTime: string, title: string) => {
-        console.log("button down")
+    const handleButtonClick = (index: number, action: string, addTime: string, title: string): void => {
+        console.log('button down')
         onUpdateItems(index, action, addTime, title);
     };
-
 
     return (
         <div className={styles.box}>
             <table className={styles.listTable}>
                 <thead>
                 <tr>
-                    <th className={styles.listButton}>{buttonText === 'ADD' ? 'CANCEL' : "REMAKE"}</th>
+                    <th className={styles.listButton}>{buttonText === 'ADD' ? 'CANCEL' : 'REMAKE'}</th>
                     <th className={styles.listTitle}>
-                        {title === "BASIC_LIST" ?
-                            <i className="bi bi-hourglass-top"></i>
-                            :
-                            <i className="bi bi-hourglass-split"></i>
+                        {title === 'BASIC_LIST'
+                            ? <i className="bi bi-hourglass-top"></i>
+                            : <i className="bi bi-hourglass-split"></i>
                         }
                     </th>
                     <th className={styles.listButton}>{buttonText === 'ADD' ? 'ADD' : 'DONE'}</th>
                 </tr>
                 </thead>
                 <tbody>
-                {filteredItems.length> 0 ? filteredItems.map((item, index) => (
+                {filteredItems.length > 0
+                    ? filteredItems.map((item, index) => (
                     <TodoItem
                         key={index}
                         index={index}
@@ -56,7 +55,8 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
                         buttonText={buttonText}
                         onButtonClick={handleButtonClick}
                     />
-                )):<tr><td>no thing</td></tr>
+                ))
+                : <tr><td>no thing</td></tr>
                 }
                 </tbody>
             </table>
@@ -64,27 +64,17 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
     );
 };
 
-type TodoItemProps = {
-    index: number;
-    item: TodoEvent;
-    moveItem: (dragIndex: number, hoverIndex: number) => void;
-    renderContent: (value: TodoEvent) => React.ReactNode;
-    statusFilter: string;
-    buttonText: string;
-    onButtonClick: (index: number, action: string, addTime: string, title: string) => void;
-};
-
 export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, renderContent, statusFilter, buttonText, onButtonClick }) => {
-    const handleButtonClicked = (action: string, item: TodoEvent) => {
+    const handleButtonClicked = (action: string, item: TodoEvent): void => {
         onButtonClick(index, action, item.addTime, item.title);
     };
 
     const ref = React.useRef<HTMLTableRowElement>(null);
 
-    const [{ isOver }, drop] = useDrop({
+    const [, drop] = useDrop({
         accept: 'todoItem',
         hover: (item: { index: number }, monitor) => {
-            if (!ref.current) {
+            if (ref.current == null) {
                 return;
             }
             const dragIndex = item.index;
@@ -95,7 +85,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
             const hoverBoundingRect = ref.current?.getBoundingClientRect();
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
             const clientOffset = monitor.getClientOffset();
-            if (!clientOffset) {
+            if (clientOffset == null) {
                 return;
             }
             const hoverClientY = clientOffset.y - hoverBoundingRect.top;
@@ -109,8 +99,8 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
             item.index = hoverIndex;
         },
         collect: (monitor) => ({
-            isOver: !!monitor.isOver(),
-        }),
+            isOver: !!monitor.isOver()
+        })
     });
 
     const [{ isDragging }, drag] = useDrag({
@@ -119,8 +109,8 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
             return { index };
         },
         collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-        }),
+            isDragging: monitor.isDragging()
+        })
     });
 
     drag(drop(ref));
@@ -129,22 +119,22 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
         <tr ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>
             <td className={`col-md-3 ${styles.listButton}`}>
 
-                {statusFilter === "done" ? item.startTime :
-                    <Button className={styles.listButton} onClick={() => handleButtonClicked(buttonText === 'ADD' ? 'CANCEL' : 'REMAKE', item)}>
+                {statusFilter === 'done'
+                    ? item.startTime
+                    : <Button className={styles.listButton} onClick={() => { handleButtonClicked(buttonText === 'ADD' ? 'CANCEL' : 'REMAKE', item); }}>
                         {buttonText === 'ADD' ? <i className="bi bi-eraser-fill"></i> : <i className="bi bi-hourglass-top"></i>}
                     </Button>
                 }
             </td>
             <td className={`col-md-6 ${styles.listContext}`}>{renderContent(item)}</td>
-            {statusFilter === "done" ?
-                <td className={styles.listButton}>{item.endTime}</td> :
-                <td className={styles.listButton}>
-                    <Button className={`col-md-3 ${styles.listButton}`} onClick={() => handleButtonClicked(buttonText === 'ADD' ? 'ADD' : 'DONE', item)}>
+            {statusFilter === 'done'
+                ? <td className={styles.listButton}>{item.endTime}</td>
+                : <td className={styles.listButton}>
+                    <Button className={`col-md-3 ${styles.listButton}`} onClick={() => { handleButtonClicked(buttonText === 'ADD' ? 'ADD' : 'DONE', item); }}>
                         {buttonText === 'ADD' ? <i className="bi bi-hourglass-split"></i> : <i className="bi bi-hourglass-bottom"></i>}
                     </Button>
                 </td>
             }
         </tr>
     );
-
 };

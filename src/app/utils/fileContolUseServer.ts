@@ -1,6 +1,7 @@
 'use server'
 import path from 'path';
 import fs from 'fs/promises';
+import { type TodoEvent } from '@/app/interface/todoList';
 
 // todo
 export const getTodoListAtServer = async (fileName: string): Promise<any> => {
@@ -34,3 +35,23 @@ export const getTodoDayDiary = async (date: string): Promise<string | null> => {
 		return null;
 	}
 };
+
+export const getShortTodoListAtServer = async (date: string): Promise<TodoEvent[] | null> => {
+	const preFileName = date.substring(0, date.lastIndexOf('-'));
+	const fileName = preFileName + '-shortTodoList';
+	try {
+		const todoListPath = path.join(process.cwd(), 'public', 'todoList', `${fileName}.json`);
+		const diaryExists = await fs.access(todoListPath).then(() => true).catch(() => false);
+		if (diaryExists) {
+			const todoListShortContent = await fs.readFile(todoListPath, 'utf-8');
+			const todoListObject = JSON.parse(todoListShortContent);
+			const day = date.substring(date.lastIndexOf('-') + 1);
+			return todoListObject[day];
+		} else {
+			return null;
+		}
+	} catch (error) {
+		console.error('Error load basic todo list:', error);
+		throw error;
+	}
+}

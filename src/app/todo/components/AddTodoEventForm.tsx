@@ -11,7 +11,7 @@ const AddTodoEventForm: React.FC<AddTodoEventFormProps> = ({ onUpdate }: AddTodo
     const [openDialog, setOpenDialog] = useState(false);
     const [title, setTitle] = useState('');
     const [endTime, setEndTime] = useState('');
-    const [importance, setImportance] = useState('');
+    const [eventType, setEventType] = useState('');
     const [submitting, setSubmitting] = useState(false); // State to manage form submission
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -23,7 +23,8 @@ const AddTodoEventForm: React.FC<AddTodoEventFormProps> = ({ onUpdate }: AddTodo
             status: 'pending',
             endTime,
             addTime: new Date().toLocaleDateString(),
-            startTime: ''
+            startTime: '',
+            eventType
         };
 
         try {
@@ -75,17 +76,16 @@ const AddTodoEventForm: React.FC<AddTodoEventFormProps> = ({ onUpdate }: AddTodo
                             InputLabelProps={{ shrink: true }}
                         />
                         <FormControl fullWidth>
-                            <InputLabel>Importance</InputLabel>
+                            <InputLabel>eventType</InputLabel>
                             <Select
-                                value={importance}
-                                onChange={(e: any) => { setImportance(e.target.value as string); }}
+                                value={eventType}
+                                onChange={(e: any) => { setEventType(e.target.value as string); }}
                                 required
                             >
-                                <MenuItem value="">Select Importance</MenuItem>
-                                <MenuItem value="low">Low</MenuItem>
-                                <MenuItem value="medium">Medium</MenuItem>
-                                <MenuItem value="high">High</MenuItem>
-                                <MenuItem value="urgent">Urgent</MenuItem>
+                                <MenuItem value="notUrgentNotImportant">NotUrgent NotImportant</MenuItem>
+                                <MenuItem value="notUrgentImportant">NotUrgent Important</MenuItem>
+                                <MenuItem value="urgentNotImportant">Urgent NotImportant</MenuItem>
+                                <MenuItem value="urgentImportant">Urgent Important</MenuItem>
                             </Select>
                         </FormControl>
                         <DialogActions>

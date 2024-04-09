@@ -5,6 +5,7 @@ import { type NextApiRequest, type NextApiResponse } from 'next';
 export default async function handler (req: NextApiRequest, res: NextApiResponse): Promise<any> {
     if (req.method === 'POST') {
         const { fileName, todoEvent, isUpdateList } = req.body;
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!fileName || !todoEvent || typeof isUpdateList === 'undefined') {
             res.status(400).json({ error: 'Missing file name, todo event data, or isUpdateList parameter' }); return;
         }
@@ -12,7 +13,8 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         try {
             const fileData = await fs.readFile(filePath, 'utf-8');
             let jsonData = JSON.parse(fileData);
-            if (Boolean(isUpdateList)) {
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+            if (isUpdateList) {
                 jsonData = todoEvent;
             } else {
                 jsonData.push(todoEvent);

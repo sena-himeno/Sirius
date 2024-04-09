@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import { type TodoEvent, type TodoDetailDialogProps } from '@/app/interface/todoList'
+import { type TodoDetailDialogProps, type AddTodoDialogProps } from '@/app/interface/todoList'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material'
-import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineOppositeContent, TimelineSeparator } from '@mui/lab'
-import styles from '@/style/todoList.module.css'
 
 export const TodoDetailDialog: React.FC<TodoDetailDialogProps> = ({ open, onClose, onConfirm, todo }) => {
   const [selectedTime, setSelectedTime] = React.useState<string>('')
@@ -51,30 +49,7 @@ export const TodoDetailDialog: React.FC<TodoDetailDialogProps> = ({ open, onClos
   )
 }
 
-export const TimelineComponent: React.FC<{ items: TodoEvent[] }> = ({ items }) => {
-  return (
-        <Timeline position="alternate">
-            {items.map((todo, index) => (
-                <TimelineItem key={index} className={styles.TimeLineItem}>
-                    <TimelineOppositeContent className={styles.TimeLineItemTime}>
-                        {todo.addTime}
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                        <TimelineDot />
-                        <TimelineConnector />
-                    </TimelineSeparator>
-                    <TimelineContent className={styles.TimeLineItemTitle}>{todo.title}</TimelineContent>
-                </TimelineItem>
-            ))}
-        </Timeline>
-  )
-}
 
-interface AddTodoDialogProps {
-  open: boolean
-  onClose: () => void
-  onAddTodo: (title: string) => void
-}
 
 export const AddTodoDialog: React.FC<AddTodoDialogProps> = ({ open, onClose, onAddTodo }) => {
   const [title, setTitle] = useState('')

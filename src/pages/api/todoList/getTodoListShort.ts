@@ -27,8 +27,6 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
                 jsonData = [];
             }
 
-            console.log(jsonData)
-
             res.status(200).json(jsonData);
         } catch (error) {
             console.error('Error:', error);

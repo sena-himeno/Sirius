@@ -6,12 +6,13 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { TodoListComponent } from './TodoListTableComponentShort'
 import { type TodoEvent } from '../../interface/todoList'
-import { TimelineComponent, TodoDetailDialog, AddTodoDialog } from './TodoListComponentShortUI'
+import { TodoDetailDialog, AddTodoDialog } from './TodoListComponentShortUI'
 import { getBasicTodoList, getShortTodoList } from '@/app/utils/todoList'
 import { getDate } from '@/app/utils/common'
 import { Button } from '@mui/material'
 import styles from '@/style/todoList.module.css'
 import { SaveButtonShort } from './SaveButton'
+import {TimelineComponent} from "@/app/todo/components/ClientUI";
 
 const TodoListShort: React.FC = () => {
     const [baseTodoList, setBaseTodoList] = useState<TodoEvent[]>([])

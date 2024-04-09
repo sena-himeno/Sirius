@@ -1,0 +1,53 @@
+.home{
+    max-width: 1400px;
+    margin-top: 3rem;
+    color:var(--strong-text-color)
+}
+.containerLeft{
+    padding: 1rem;
+    /*border: 1px solid var(--main-text-color);*/
+    /*border-radius: 10px;*/
+
+}
+.containerRight{
+    padding: 1rem;
+    border: 1px solid var(--main-text-color);
+    border-radius: 10px;
+    margin-left: 5rem;
+}
+.timeTracker{
+    padding: 1rem;
+    border: 1px solid var(--main-text-color);
+    border-radius: 10px;
+
+}
+.basicState{
+    margin-top: 2rem;
+    padding: 1rem;
+    border: 1px solid var(--main-text-color);
+    border-radius: 10px;
+}
+
+/*basicState*/
+.basicStateContent{
+    padding: 1rem;
+}
+
+.basicStateContent > div >p {
+    border-bottom: 1px solid var(--main-text-color);
+}
+
+/*TimeTracker*/
+.progressContainer + .progressContainer{
+    margin-top: 1rem;
+}
+.timeTrackerValue {
+    margin: 0 auto;
+}
+
+/*QuadrantChart*/
+.quadrantChart{
+    padding: 1rem;
+    border: 1px solid var(--main-text-color);
+    border-radius: 10px;
+}

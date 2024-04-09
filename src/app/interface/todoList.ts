@@ -23,6 +23,7 @@ export interface TodoEvent {
   startTime?: string
   endTime?: string
   addTime: string
+  eventType?: string
 }
 
 export interface TodoListComponentProps {
@@ -41,4 +42,9 @@ export interface SaveButtonShortProps {
   basicTodoList: TodoEvent[]
   TodoList: TodoEvent[]
   setIsSaved: React.Dispatch<React.SetStateAction<boolean>>
+}
+export interface AddTodoDialogProps {
+  open: boolean
+  onClose: () => void
+  onAddTodo: (title: string) => void
 }

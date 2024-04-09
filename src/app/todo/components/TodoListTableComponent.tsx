@@ -23,7 +23,6 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
     }, [filteredItems, onUpdateItems]);
 
     const handleButtonClick = (index: number, action: string, addTime: string, title: string): void => {
-        console.log('button down')
         onUpdateItems(index, action, addTime, title);
     };
     return (
@@ -123,7 +122,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
             <td className={`col-md-3 ${styles.listButton}`}>
 
                 {statusFilter === 'done'
-? item.startTime
+                    ? item.startTime
                     : <Button className={styles.listButton} onClick={() => { handleButtonClicked(buttonText === 'CANCEL' ? 'CANCEL' : 'REMAKE', item); }}>
                         {buttonText === 'CANCEL' ? <i className="bi bi-eraser-fill"></i> : <i className="bi bi-hourglass-top"></i>}
                     </Button>

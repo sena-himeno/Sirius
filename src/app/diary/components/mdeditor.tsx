@@ -2,33 +2,32 @@ import React, { useState, useEffect, useRef } from 'react';
 import MDEditor from '@uiw/react-md-editor';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {MDEditorProps} from '../../interface/diary'
-import {createMarkdownFile} from "@/app/utils/diary";
-import {getDate} from "@/app/utils/common";
+import { type MDEditorProps } from '../../interface/diary'
+import { createMarkdownFile } from '@/app/utils/diary';
+import { getDate } from '@/app/utils/common';
 import styles from '@/style/diary.module.css'
-
 
 const AUTO_SAVE_CHANGE_COUNT = 20;
 const MDEditorComponent: React.FC<MDEditorProps> = ({ url }) => {
-    let savePath = url;
+    const savePath = url;
 
     const [value, setValue] = useState<string>('');
     const [pending, setPending] = useState<boolean>(false);
-    const [editCount, setEditCount] = useState<number>(0);  // 变更统计 用来自动保存
+    const [editCount, setEditCount] = useState<number>(0); // 变更统计 用来自动保存
     const divRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         const currentDate = new Date();
-        let selectedDate = new Date(url.replace('/diary/', '').replace('.md', ''));
+        const selectedDate = new Date(url.replace('/diary/', '').replace('.md', ''));
         selectedDate.setHours(0);
 
         if (!isNaN(selectedDate.getTime()) && selectedDate <= currentDate) {
             const fetchMarkdownFile = async () => {
                 setPending(true);
                 try {
-                    await createMarkdownFile(getDate() );
+                    await createMarkdownFile(getDate());
                     const response = await axios.get(url);
-                    setValue(response.data);
+                    setValue(defaultContent(response.data));
                 } catch (error) {
                     setValue('');
                 } finally {
@@ -44,7 +43,7 @@ const MDEditorComponent: React.FC<MDEditorProps> = ({ url }) => {
     const handleEditorChange = (value: string | undefined) => {
         setValue(value ?? '');
         setIsSaved(false)
-        setEditCount(count => count + 1);  // 变更统计 用来自动保存
+        setEditCount(count => count + 1); // 变更统计 用来自动保存
     };
 
     const handleSaveFile = async () => {
@@ -52,9 +51,9 @@ const MDEditorComponent: React.FC<MDEditorProps> = ({ url }) => {
             await fetch('/api/diary/saveMarkdownFile', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ content: value, filePath: savePath }),
+                body: JSON.stringify({ content: value, filePath: savePath })
             });
             console.log('File saved successfully');
             setEditCount(0);
@@ -64,9 +63,8 @@ const MDEditorComponent: React.FC<MDEditorProps> = ({ url }) => {
         setIsSaved(true);
     };
 
-
-    const defaultContent = (value :string) => {
-        return value === '' ? "No thing / Loading" : value ;
+    const defaultContent = (value: string) => {
+        return value === '' ? 'No thing / Loading' : value;
     }
 
     useEffect(() => {
@@ -87,11 +85,10 @@ const MDEditorComponent: React.FC<MDEditorProps> = ({ url }) => {
 
     const [isSaved, setIsSaved] = useState<boolean>(true);
 
-
     return (
         <div className={`${styles.markdownContainer} container`}>
-            <div className={`col-12 row`}>
-                <div className={`col-1`}>
+            <div className={'col-12 row'}>
+                <div className={'col-1'}>
 
                 </div>
             <div className={`row col-4 ${styles.buttonBlock}`}>
@@ -108,25 +105,25 @@ const MDEditorComponent: React.FC<MDEditorProps> = ({ url }) => {
 
             </div>
                 {
-                    !isSaved && <button  className={`col-2 ${styles.saveButton} ${styles.todoListControlButton}`} onClick={handleSaveFile}>Save</button>
+                    !isSaved && <button className={`col-2 ${styles.saveButton} ${styles.todoListControlButton}`} onClick={handleSaveFile}>Save</button>
                 }
             </div>
 
             <div className={styles.todoListContext}>
                 {
-                    showMDEditor ?
-                        <div className={styles.mdeditorBody}>
+                    showMDEditor
+                        ? <div className={styles.mdeditorBody}>
                             <MDEditor className={styles.MDEditor}
-                                      value={String(defaultContent(value))}
+                                      value={value}
                                       onChange={handleEditorChange}
-                                      preview={"edit"}
+                                      preview={'edit'}
                                       height={700}
                             />
-                        </div> :
-                        <div>
+                        </div>
+                        : <div>
                             <div className={`p-3 ${styles.markdownPreviewBody}`} ref={divRef}>
                                 <MDEditor.Markdown className={`${styles.diaryPreview}`}
-                                                   source={String(defaultContent(value)) || ''}
+                                                   source={value}
                                 />
                             </div>
                         </div>
