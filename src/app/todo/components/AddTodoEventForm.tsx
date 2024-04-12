@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { type TodoEvent } from '../../interface/todoList';
 import { addTodoEvent } from '@/app/utils/todoList';
+import {getDate} from "@/app/utils/common";
 
 interface AddTodoEventFormProps {
     onUpdate: () => void
@@ -22,10 +23,11 @@ const AddTodoEventForm: React.FC<AddTodoEventFormProps> = ({ onUpdate }: AddTodo
             title,
             status: 'pending',
             endTime,
-            addTime: new Date().toLocaleDateString(),
+            addTime: getDate(),
             startTime: '',
             eventType,
-            progressRate: 0
+            progressRate: 0,
+            doneTime: ''
         };
 
         try {

@@ -89,16 +89,33 @@ const QuadrantChart: React.FC<{ eventCounts: number[] }> = ({ eventCounts }) => 
 		];
 
 		quadrantCenters.forEach((center, index) => {
-			const ratio = eventCounts[index] / totalEvents;
-			const percentage = ratio * 100;
+			const eventsInQuadrant = eventCounts[index];
+			const ratio = eventsInQuadrant / totalEvents;
+			const percentage = (ratio * 100).toFixed(2);
 
-			svg.append('text')
+			const textElement = svg.append('text')
+				.attr('class', `quadrant-text quadrant-text-${index}`)
 				.attr('x', xScale(center.x))
 				.attr('y', yScale(center.y))
 				.attr('dy', '0.35em')
 				.attr('text-anchor', 'middle')
+				.style('visibility', 'visible') // 初始显示占比信息
 				.style('fill', 'var(--other-title-color)')
-				.text(`${percentage.toFixed(2)}%`);
+				.text(`${percentage}%`);
+
+			svg.append('rect')
+				.attr('class', 'hover-rect')
+				.attr('x', xScale(center.x) - 25)
+				.attr('y', yScale(center.y) - 15)
+				.attr('width', 50)
+				.attr('height', 30)
+				.style('fill', 'transparent')
+				.on('mouseover', () => {
+					textElement.text(eventsInQuadrant); // 鼠标悬浮时显示具体数值
+				})
+				.on('mouseout', () => {
+					textElement.text(`${percentage}%`); // 鼠标移出时恢复显示占比信息
+				});
 		});
 	}, [eventCounts]);
 

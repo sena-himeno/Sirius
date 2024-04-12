@@ -1,7 +1,7 @@
 'use server'
 import path from 'path';
 import fs from 'fs/promises';
-import { type TodoEvent } from '@/app/interface/todoList';
+import {MonthlyStats, type TodoEvent} from '@/app/interface/todoList';
 
 // todo
 export const getTodoListAtServer = async (fileName: string): Promise<any> => {
@@ -10,7 +10,6 @@ export const getTodoListAtServer = async (fileName: string): Promise<any> => {
 		const fileExists = await fs.access(filePath).then(() => true).catch(() => false);
 		if (!fileExists) {
 			await fs.writeFile(filePath, '[]', 'utf-8');
-			console.log(`${fileName}.json created.`);
 		}
 		const fileData = await fs.readFile(filePath, 'utf-8');
 		return JSON.parse(fileData);
@@ -54,4 +53,26 @@ export const getShortTodoListAtServer = async (date: string): Promise<TodoEvent[
 		console.error('Error load basic todo list:', error);
 		throw error;
 	}
+}
+
+export const monthlyStatsForYear = async (todoList: TodoEvent[], year: string): Promise<MonthlyStats[]> => {
+	const monthlyStats: MonthlyStats[] = [];
+
+	for (let i = 1; i <= 12; i++) {
+		const monthStr = i < 10 ? `0${i}` : `${i}`;
+		monthlyStats.push({ month: `${monthStr}`, doneTasks: 0, addedTasks: 0 });
+	}
+
+	todoList.forEach(item => {
+		if ((item.doneTime != null) && item.doneTime.startsWith(year)) {
+			const monthIndex = parseInt(item.doneTime.substring(5, 7)) - 1;
+			monthlyStats[monthIndex].doneTasks++;
+		}
+		if (item.addTime.startsWith(year)) {
+			const monthIndex = parseInt(item.addTime.substring(5, 7)) - 1;
+			monthlyStats[monthIndex].addedTasks++;
+		}
+	});
+
+	return monthlyStats;
 }

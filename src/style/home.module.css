@@ -28,6 +28,14 @@
 
 /*basicState*/
 .basicStateContent{
+    min-height: 34vh;
+    /*border-bottom: 1px solid var(--main-text-color);*/
+
+}
+.basicStateContainer{
+    min-height: 30vh;
+    /*border-bottom: 1px solid var(--main-text-color);*/
+
 }
 
 .basicStateContent > div >p {
@@ -66,6 +74,21 @@
 
 }
 
+/*chart button*/
+.chartButtonChoose{
+    background-color: transparent;
+    border-color:var(--title-color);
+    border-radius: 0 0 10px 10px;
+    border-top:none;
+    padding-top:0.5rem;
+}
+.selectedButton{
+    border-color:var(--strong-text-color);
+}
+.chartButtonChoose + .chartButtonChoose{
+    margin-left: 1rem;
+}
+
 /*over flow*/
 .defaultContent::-webkit-scrollbar {
     width: 3px; /* 设置滚动条宽度 */
@@ -75,6 +98,8 @@
     background-color: var(--main-text-color);
     border-radius: 3px;
 }
+
+
 
 
 

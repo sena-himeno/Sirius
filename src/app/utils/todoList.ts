@@ -9,7 +9,7 @@ export const startEvent = (todoEvent: TodoEvent): TodoEvent => {
 }
 export const doneEvent = (todoEvent: TodoEvent): TodoEvent => {
     todoEvent.status = 'done';
-    todoEvent.endTime = getDate();
+    todoEvent.doneTime = getDate();
     return todoEvent;
 }
 export const remakeEvent = (todoEvent: TodoEvent): void => {

@@ -16,30 +16,32 @@ const BasicState: React.FC<{ todoItem: TodoEvent[], diaryContent: string | null 
     const eventCounts = eventTypes.map(eventType => countEventsByType(todoItem, eventType, 'done'));
 
     return (
-        <div className={`row ${styles.basicStateContent}`}>
+        <div className={styles.basicStateContainer}>
+            <div className={`row ${styles.basicStateContent}`}>
             <h4 className={'text-center'}>Basic State</h4>
             <div className="col-8">
                 <p>diary:</p>
                 <p>in progress count:</p>
                 <p>pending count:</p>
-                {eventTypes.map((eventType, index) => (
-                    <p key={index}>{eventType} count:</p>
-                ))}
+                {/* {eventTypes.map((eventType, index) => ( */}
+                {/*     <p key={index}>{eventType} count:</p> */}
+                {/* ))} */}
             </div>
             <div className="col-4 text-end">
                 <p>{hasDiaryContent}</p>
                 <p>{inProgressCount}</p>
                 <p>{pendingCount}</p>
-                {eventCounts.map((count, index) => (
-                    <p key={index}>{count}</p>
-                ))}
-                {/* 在此处调用QuadrantChart组件并传递相应的数据 */}
+                {/* {eventCounts.map((count, index) => ( */}
+                {/*     <p key={index}>{count}</p> */}
+                {/* ))} */}
             </div>
-            <div className={`col-12 ${styles.quadrantChart}`}>
-                <QuadrantChart eventCounts={eventCounts} />
-            </div>
+
         </div>
-    );
+    <div className={`col-12 ${styles.quadrantChart}`}>
+        <QuadrantChart eventCounts={eventCounts}/>
+    </div></div>
+)
+    ;
 };
 
 export default BasicState;

@@ -25,6 +25,7 @@ export interface TodoEvent {
   addTime: string
   eventType?: string
   progressRate?: number
+  doneTime?: string
 }
 
 export interface TodoListComponentProps {
@@ -48,4 +49,10 @@ export interface AddTodoDialogProps {
   open: boolean
   onClose: () => void
   onAddTodo: (title: string) => void
+}
+
+export interface MonthlyStats {
+  month: string
+  doneTasks: number
+  addedTasks: number
 }

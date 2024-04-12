@@ -34,7 +34,7 @@ const ProgressComponent: React.FC<ProgressProps> = ({ mode, value }) => {
 const TimeTracker = async (): Promise<React.JSX.Element> => {
     const daysInMonth = getDaysInMonth()
     const today = new Date()
-    const dayValue = ((today.getDate() * 24 + today.getHours()) / (daysInMonth * 24) * 100).toFixed(2)
+    const dayValue = (((today.getDate() - 1) * 24 + today.getHours()) / (daysInMonth * 24) * 100).toFixed(2)
     const hourValue = ((today.getHours() * 60 + today.getMinutes()) / (24 * 60) * 100).toFixed(2)
     return (
         <div className={''}>
