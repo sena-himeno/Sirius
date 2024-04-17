@@ -24,7 +24,7 @@ export interface TodoEvent {
   endTime?: string
   addTime: string
   eventType?: string
-  progressRate?: number
+  progressRate: number
   doneTime?: string
 }
 

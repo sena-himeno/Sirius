@@ -1,7 +1,7 @@
 'use server'
 import path from 'path';
 import fs from 'fs/promises';
-import {MonthlyStats, type TodoEvent} from '@/app/interface/todoList';
+import { type MonthlyStats, type TodoEvent } from '@/app/interface/todoList';
 
 // todo
 export const getTodoListAtServer = async (fileName: string): Promise<any> => {
@@ -73,6 +73,80 @@ export const monthlyStatsForYear = async (todoList: TodoEvent[], year: string): 
 			monthlyStats[monthIndex].addedTasks++;
 		}
 	});
-
 	return monthlyStats;
 }
+
+export const getMood = async (currentDate: string): Promise<string | undefined> => {
+	const month = currentDate.substring(0, 7);
+	const filePath = path.join(process.cwd(), 'public', 'diary', `${month}-mood.json`);
+	await fs.access(filePath);
+	const moodData = await fs.readFile(filePath, 'utf-8');
+	const moodJson = JSON.parse(moodData);
+	const day = currentDate.substring(currentDate.lastIndexOf('-') + 1);
+	for (const moods of moodJson) {
+		if (moods.day === day && moods.mood.length !== 0) {
+			return moods.mood;
+		}
+	}
+	return 'nothing';
+}
+
+export const getDiaryCharCountByMonth = async (currentDate: string): Promise<Array<{ day: number, diaryCharCount: number }>> => {
+	const result: Array<{ day: number, diaryCharCount: number }> = [];
+	const [year, month] = currentDate.split('-');
+	const daysInMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
+
+	for (let day = 1; day <= daysInMonth; day++) {
+		const paddedDay = day < 10 ? `0${day}` : day.toString();
+		const dayContent = await getTodoDayDiary(`${year}-${month}-${paddedDay}`);
+		result.push({ day, diaryCharCount: (dayContent != null) ? dayContent.length : 0 });
+	}
+
+	return result;
+}
+
+export const getDefaultTodoSHortContent = async (): Promise<any> => {
+	const filePath = path.join(process.cwd(), 'public', 'config', 'defaultTodoShort.json');
+	const fileExists = await fs.access(filePath).then(() => true).catch(() => false);
+	if (fileExists) {
+		return await fs.readFile(filePath, 'utf-8');
+	}
+	return [];
+}
+export const getTodayTodoSHortContent = async (date: string): Promise<any> => {
+	const preFileName = date.substring(0, date.lastIndexOf('-'));
+	const day = date.substring(date.lastIndexOf('-') + 1);
+	const filePath = path.join(process.cwd(), 'public', 'todoList', `${preFileName}-shortTodoList.json`);
+	const fileExists = await fs.access(filePath).then(() => true).catch(() => false);
+	if (fileExists) {
+		const fileData = await fs.readFile(filePath, 'utf-8');
+		const jsonData = JSON.parse(fileData);
+		console.log(jsonData[day])
+		return jsonData[day];
+	}
+	return [];
+}
+
+export const postTodoShortAtServer = async (date: string, todoListShort: TodoEvent[]): Promise<boolean> => {
+	const preFileName = date.substring(0, date.lastIndexOf('-'));
+	const fileName = preFileName + '-shortTodoList';
+	const filePath = path.join(process.cwd(), 'public', 'todoList', `${fileName}.json`);
+	const fileExists = await fs.access(filePath).then(() => true).catch(() => false);
+
+	if (fileExists) {
+		try {
+			const jsonData: any = await fs.readFile(filePath, 'utf-8').then(data => JSON.parse(data)).catch(() => ({}));
+
+			const day = date.substring(date.lastIndexOf('-') + 1);
+			// @ts-ignore
+			jsonData[day] = JSON.parse(todoListShort);
+
+			await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), 'utf-8');
+			return true;
+		} catch (error) {
+			console.error('写入文件时出错:', error);
+			return false;
+		}
+	}
+	return false;
+};

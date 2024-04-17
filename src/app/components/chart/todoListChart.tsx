@@ -16,8 +16,7 @@ const LollipopChart: React.FC<LollipopChartProps> = ({ data, width, height, type
 	const svgRef = useRef<SVGSVGElement>(null);
 
 	useEffect(() => {
-		if (!data) return;
-
+		if ((svgRef.current == null) || data.length <= 1) return;
 		const svg = d3.select(svgRef.current);
 		svg.selectAll('*').remove();
 		const margin = { top: 20, right: 30, bottom: 30, left: 40 };
@@ -47,7 +46,7 @@ const LollipopChart: React.FC<LollipopChartProps> = ({ data, width, height, type
 			.attr('y1', d => yScale(0))
 			.attr('x2', (d: { month: any }) => xScale(d.month) + xScale.bandwidth() / 2)
 			.attr('y2', d => yScale(0))
-			.attr('stroke', type === 'add' ? 'steelblue' : 'red')
+			.attr('stroke', type === 'add' ? 'steelblue' : 'pink')
 			.attr('stroke-width', 2);
 
 		const circles = g.selectAll('.circle')
@@ -57,7 +56,7 @@ const LollipopChart: React.FC<LollipopChartProps> = ({ data, width, height, type
 			.attr('cx', d => xScale(d.month) + xScale.bandwidth() / 2)
 			.attr('cy', d => yScale(0))
 			.attr('r', 5)
-			.style('fill', type === 'add' ? 'steelblue' : 'red');
+			.style('fill', type === 'add' ? 'steelblue' : 'pink');
 
 		circles.transition()
 			.duration(1000)
@@ -99,12 +98,12 @@ export const TodoLollipop: React.FC<TodoLollipopProps> = ({ todoLineChartDate })
 
 	return (
 		<div>
-			<div>
+			<div >
 				<button className={`${styles.chartButtonChoose} ${chartType === 'done' ? styles.selectedButton : ''}`} onClick={() => { handleChartTypeChange('done'); }}>Done Tasks</button>
 				<button className={`${styles.chartButtonChoose} ${chartType === 'add' ? styles.selectedButton : ''}`} onClick={() => { handleChartTypeChange('add'); }}>Added Tasks</button>
 			</div>
-			<div>
-				<LollipopChart data={todoLineChartDate} type={chartType} width={700} height={300} />
+				<div className={styles.defaultOverFlow}>
+				<LollipopChart data={todoLineChartDate} type={chartType} width={650} height={300} />
 			</div>
 		</div>
 	);

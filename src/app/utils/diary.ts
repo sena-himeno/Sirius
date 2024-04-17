@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const MOOD_CHOOSE = ["٩(◕‿◕｡)۶", " (´；ω；`)", "｡ﾟ( ﾟஇ‸இﾟ)ﾟ｡", " (╬ Ò ‸ Ó)", "(≧◡≦)", "(≧∇≦)", "(´～｀)", " (´∀｀)♡", "(ﾉ*>∀<)ﾉ", "（╥_╥）"];
+export const MOOD_CHOOSE = ['٩(◕‿◕｡)۶', ' (´；ω；`)', '｡ﾟ( ﾟஇ‸இﾟ)ﾟ｡', ' (╬ Ò ‸ Ó)', '(≧◡≦)', '(≧∇≦)', '(´～｀)', ' (´∀｀)♡', '(ﾉ*>∀<)ﾉ', '（╥_╥）'];
 export const MAX_RETRY_COUNT = 5;
 
-export  const createMarkdownFile = async (localDate: string) => {
+export const createMarkdownFile = async (localDate: string) => {
     try {
         await axios.post('/api/diary/autoCreateDiary', { date: localDate });
     } catch (error) {
@@ -22,7 +22,7 @@ export const checkCurrentMonthDiaryFile = async () => {
         }
         datesToCheck.push(date);
     }
-    const results: { [date: string]: boolean } = {};
+    const results: Record<string, boolean> = {};
     for (const date of datesToCheck) {
         try {
             const dateString = date.toLocaleDateString('en-CA');
@@ -40,9 +40,9 @@ export const checkMoodFileExists = async (currentDate: string) => {
     try {
         const month = currentDate.substring(0, 7);
 
-        const checkResponse = await axios.get(`/api/diary/checkMoodFile`, {
+        const checkResponse = await axios.get('/api/diary/checkMoodFile', {
             params: {
-                month: month
+                month
             }
         });
 
@@ -58,18 +58,18 @@ export const fetchMoodData = async (currentDate: string) => {
         const month = currentDate.substring(0, 7);
         const response = await axios.get(`diary/${month}-mood.json`);
 
-        return response.data.sort((a: { day: string; mood: string }, b: { day: string; mood: string }) => parseInt(b.day) - parseInt(a.day));
+        return response.data.sort((a: { day: string, mood: string }, b: { day: string, mood: string }) => parseInt(b.day) - parseInt(a.day));
     } catch (error) {
         console.error('Error fetching mood data:', error);
         return [];
     }
 };
 
-export const postCurrentDayMood = async (currentDate: string, mood: string, moodData: { day: string; mood: string }[]) => {
+export const postCurrentDayMood = async (currentDate: string, mood: string, moodData: Array<{ day: string, mood: string }>) => {
     try {
         const response = await axios.post('/api/diary/pushCurrentDayMood', {
             date: currentDate,
-            mood: mood
+            mood
         });
 
         if (response.status === 200) {
@@ -78,7 +78,7 @@ export const postCurrentDayMood = async (currentDate: string, mood: string, mood
             if (index !== -1) {
                 updatedMoodData[index].mood = mood;
             } else {
-                updatedMoodData.push({ day: currentDate.substring(8, 10), mood: mood });
+                updatedMoodData.push({ day: currentDate.substring(8, 10), mood });
             }
             return updatedMoodData;
         } else {
@@ -90,4 +90,3 @@ export const postCurrentDayMood = async (currentDate: string, mood: string, mood
         return moodData;
     }
 };
-

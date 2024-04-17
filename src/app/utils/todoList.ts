@@ -8,8 +8,16 @@ export const startEvent = (todoEvent: TodoEvent): TodoEvent => {
     return todoEvent;
 }
 export const doneEvent = (todoEvent: TodoEvent): TodoEvent => {
-    todoEvent.status = 'done';
-    todoEvent.doneTime = getDate();
+    if (todoEvent.eventType !== undefined || todoEvent.progressRate !== -1) {
+    todoEvent.progressRate += 10;
+    if (todoEvent.progressRate >= 100) {
+        todoEvent.status = 'done';
+        todoEvent.doneTime = getDate();
+    }
+    }
+    else {
+        todoEvent.status = 'done';
+    }
     return todoEvent;
 }
 export const remakeEvent = (todoEvent: TodoEvent): void => {

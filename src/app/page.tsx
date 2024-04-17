@@ -1,16 +1,19 @@
-'use server'
 import TimeTracker from '@/app/components/TimeTracker';
 import InProgress from '@/app/components/InProgress';
 import BasicState from '@/app/components/BasicState';
 import React from 'react';
 import { getAllTodoList } from '@/app/utils/todoList';
 import { type MonthlyStats, type TodoEvent } from '@/app/interface/todoList';
-import { getShortTodoListAtServer, getTodoDayDiary, monthlyStatsForYear } from '@/app/utils/fileContolUseServer';
+import {
+    getShortTodoListAtServer,
+    getTodoDayDiary,
+    monthlyStatsForYear
+} from '@/app/utils/fileContolUseServer';
 import { getDate } from '@/app/utils/common';
 import TimeLine from '@/app/components/TimeLine';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '@/style/home.module.css';
-import {TodoLollipop} from '@/app/components/todoListChart';
+import { TodoLollipop } from '@/app/components/chart/todoListChart';
 
 export default async function Home (): Promise<React.JSX.Element> {
     let todoItem: TodoEvent[] = [];
@@ -26,9 +29,9 @@ export default async function Home (): Promise<React.JSX.Element> {
     }
     await fetchTodo();
     return (
-      <div className={`container-fluid ${styles.home} justify-content-center mt-2`}>
+      <div className={`container-fluid ${styles.home} shadow-lg justify-content-center mt-2`}>
           <div className={'row'}>
-              <div className={`col-5 ${styles.containerLeft}`}>
+              <div className={`col-sm-12 col-md-10 col-lg-8 col-xl-6 ${styles.containerLeft}`}>
                   <div className={`${styles.timeTracker}`}>
                     <TimeTracker />
                   </div>
@@ -36,7 +39,7 @@ export default async function Home (): Promise<React.JSX.Element> {
                     <BasicState todoItem={todoItem} diaryContent={diaryContent}/>
                   </div>
               </div>
-              <div className={`col-6 ${styles.containerRight}`}>
+              <div className={`col-sm-12 col-md-10 col-lg-8 col-xl-6 ${styles.containerRight}`}>
                   <div className={`row justify-content-center mt-2 ${styles.upperRight}`}>
                       <div className={'col-5 text-center'}>
                           <div className={styles.titleContainer}>

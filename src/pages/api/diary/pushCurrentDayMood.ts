@@ -11,8 +11,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const month = date.substring(0, 7);
             const filename = `${month}-mood.json`;
             const filePath = path.join(MOODS_DIR, filename);
-            console.log("date"+date);
-            console.log("mood"+mood);
             let moodData = [];
 
 
@@ -23,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
                 if (readError.code === 'ENOENT') {
                     await fs.mkdir(MOODS_DIR, { recursive: true });
-                    await fs.writeFile(filePath, '[]');
+                    await fs.writeFile(filePath, '');
                 } else {
                     throw readError;
                 }
@@ -37,7 +35,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             } else {
                 moodData.push({ day, mood });
             }
-
 
             await fs.writeFile(filePath, JSON.stringify(moodData));
 

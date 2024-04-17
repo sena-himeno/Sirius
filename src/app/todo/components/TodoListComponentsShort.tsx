@@ -12,7 +12,7 @@ import { getDate } from '@/app/utils/common'
 import { Button } from '@mui/material'
 import styles from '@/style/todoList.module.css'
 import { SaveButtonShort } from './SaveButton'
-import {TimelineComponent} from "@/app/todo/components/ClientUI";
+import { TimelineComponent } from '@/app/todo/components/ClientUI';
 
 const TodoListShort: React.FC = () => {
     const [baseTodoList, setBaseTodoList] = useState<TodoEvent[]>([])
@@ -128,7 +128,7 @@ const TodoListShort: React.FC = () => {
     }
 
     const handleAddTodo = (title: string): void => {
-        setBaseTodoList(prevList => [...prevList, { title, status: 'pending', startTime: '', endTime: '', addTime: '' }])
+        setBaseTodoList(prevList => [...prevList, { title, status: 'pending', startTime: '', endTime: '', addTime: '', progressRate: -1}])
         setIsSaved(true)
     }
 

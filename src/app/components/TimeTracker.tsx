@@ -1,4 +1,3 @@
-'use server'
 import React from 'react'
 import { LinearProgress } from '@mui/material'
 import 'bootstrap/dist/css/bootstrap.min.css'

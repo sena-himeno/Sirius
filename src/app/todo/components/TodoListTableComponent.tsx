@@ -1,10 +1,19 @@
-import React, { useLayoutEffect, useState } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
+import React, {useLayoutEffect, useState} from 'react';
+import {useDrag, useDrop} from 'react-dnd';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../../style/todoList.module.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { Button } from '@mui/material';
-import { type TodoEvent, type TodoListComponentProps, type TodoItemProps } from '../../interface/todoList';
+import {Button} from '@mui/material';
+import {type TodoEvent, type TodoItemProps, type TodoListComponentProps} from '../../interface/todoList';
+
+// 根据进度返回相应的颜色
+const getColorForProgress = (progress: number): string => {
+    const red = 150;
+    const blue = 125;
+    const green = 50;
+
+    return `rgb(${red - (red * progress) / 100}, ${green - (green * progress) / 100}, ${blue + (red * progress) / 100})`;
+};
 
 export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, buttonText, statusFilter, items, renderContent, onUpdateItems }) => {
     const [filteredItems, setFilteredItems] = useState<TodoEvent[]>(items);
@@ -25,13 +34,14 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
     const handleButtonClick = (index: number, action: string, addTime: string, title: string): void => {
         onUpdateItems(index, action, addTime, title);
     };
+
     return (
         <div className={''}>
 
             <h4 className={'align-content-center text-center'}>
                 <div className={'row'}>
-                    <div className={`col-4`}>{buttonText === 'DONE' ? 'startTime' : buttonText}</div>
-                    <div className={`col-4`}>
+                    <div className={'col-4'}>{buttonText === 'DONE' ? 'startTime' : buttonText}</div>
+                    <div className={'col-4'}>
                         {title === 'PENDING'
                             ? (
                                 <i className="bi bi-hourglass-top"></i>
@@ -45,7 +55,7 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
                                 )}
                     </div>
                     {statusFilter === 'done'
-                        ? <div className={`${''} col-4`}>endTime</div>
+                        ? <div className={`${''} col-4`}>doneTime</div>
                         : <div className={`${''} col-4`}>{buttonText === 'CANCEL' ? 'START' : 'DONE'}</div>}
                 </div>
             </h4>
@@ -74,6 +84,16 @@ export const TodoListComponent: React.FC<TodoListComponentProps> = ({ title, but
 };
 
 export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, renderContent, statusFilter, buttonText, onButtonClick }) => {
+    const [showRate, setShowRate] = useState(false);
+
+    const handleMouseEnter = (): void => {
+        setShowRate(true);
+    };
+
+    const handleMouseLeave = (): void => {
+        setShowRate(false);
+    };
+
     const handleButtonClicked = (action: string, item: TodoEvent): void => {
         onButtonClick(index, action, item.addTime, item.title);
     };
@@ -124,6 +144,8 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
 
     drag(drop(ref));
 
+    const progressColor = getColorForProgress(item.progressRate);
+
     return (
         <tr ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>
             <td className={`col-md-3 ${styles.listButton}`}>
@@ -134,12 +156,23 @@ export const TodoItem: React.FC<TodoItemProps> = ({ index, item, moveItem, rende
                     </Button>
                 }
             </td>
-            <td className={`col-md-6 ${styles.listContext}`}>{renderContent(item)}</td>
+            {
+                item.status === 'in-progress'
+                    ? <td className={`col-md-6 ${styles.listContext}`} onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave} style={{ borderColor: progressColor }}>
+                        {showRate ? item.progressRate + '%' : renderContent(item)}
+                    </td>
+                    : <td className={`col-md-6 ${styles.listContext}`}>
+                        {renderContent(item)}
+                    </td>
+            }
             {statusFilter === 'done'
-                ? <td className={styles.listButton}>{item.endTime}</td>
+                ? <td className={styles.listButton}>{item.doneTime}</td>
                 : <td className={styles.listButton}>
-                    <Button className={`col-md-3 ${styles.listButton}`} onClick={() => { handleButtonClicked(buttonText === 'CANCEL' ? 'START' : 'DONE', item); }}>
-                        {buttonText === 'CANCEL' ? <i className="bi bi-hourglass-split"></i> : <i className="bi bi-hourglass-bottom"></i>}
+                    <Button className={`col-md-3 ${styles.listButton}`} onClick={() => {
+                        handleButtonClicked(buttonText === 'CANCEL' ? 'START' : 'DONE', item)
+                        } }>
+                        {buttonText === 'CANCEL' ? <i className="bi bi-hourglass-split"></i> : <i className="bi bi-hourglass-split" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}></i>}
                     </Button>
                 </td>
             }
