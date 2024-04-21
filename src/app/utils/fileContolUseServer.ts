@@ -121,7 +121,6 @@ export const getTodayTodoSHortContent = async (date: string): Promise<any> => {
 	if (fileExists) {
 		const fileData = await fs.readFile(filePath, 'utf-8');
 		const jsonData = JSON.parse(fileData);
-		console.log(jsonData[day])
 		return jsonData[day];
 	}
 	return [];

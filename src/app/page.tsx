@@ -59,9 +59,9 @@ export default async function Home (): Promise<React.JSX.Element> {
                           </div>
                       </div>
                   </div>
-                  <div className={'text-center'}>
-                      <TodoLollipop todoLineChartDate={todoLineChartDate} />
-                  </div>
+              <div className={'text-center'}>
+                  <TodoLollipop todoLineChartDate={todoLineChartDate} />
+              </div>
               </div>
           </div>
       </div>

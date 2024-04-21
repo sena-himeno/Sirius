@@ -29,12 +29,16 @@
 
 /*basicState*/
 .basicStateContent{
-    min-height: 34vh;
+    min-height: 330px;
+    max-height: 330px;
+
     /*border-bottom: 1px solid var(--main-text-color);*/
 
 }
 .basicStateContainer{
-    min-height: 30vh;
+    min-height: 600px;
+    max-height: 600px;
+
     /*border-bottom: 1px solid var(--main-text-color);*/
 
 }
@@ -62,7 +66,7 @@
 }
 .chartControlButtons{
     border-right: 1px solid var(--main-text-color);
-    padding-right: 0;
+    padding-right: 0 !important;
 }
 .chartControlButtons > button{
     background-color: transparent;

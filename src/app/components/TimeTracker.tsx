@@ -14,7 +14,7 @@ const ProgressComponent: React.FC<ProgressProps> = ({ mode, value }) => {
         <div className={`container ${styles.progressContainer}`}>
             <div className="row align-items-center">
                 <div className={'col-2 '}>
-                    <p className={styles.timeTrackerValue}>{`${mode}: `}</p>
+                    <p className={styles.timeTrackerValue}>{`${mode.toUpperCase()}: `}</p>
                 </div>
                 <div className="col-8">
                     <LinearProgress className={styles.progress}

@@ -1,0 +1,88 @@
+.archiveContainer{
+    max-width:1600px;
+    margin:0 auto;
+}
+.archiveControlButton{
+    background-color: var(--table-bg-color);
+    padding-left : 0.75rem;
+    padding-right : 0.75rem;
+    width: 10rem;
+    padding-top:0.5rem;
+    border: none;
+}
+.activeButton{
+    border: 1px solid var(--title-color);
+    border-bottom: none;
+    color:var(--strong-text-color);
+    border-radius: 10px 10px 0 0;
+
+}
+
+.archiveControlButton + .archiveControlButton {
+    margin-left: 1rem;
+}
+.archiveContent{
+    border: 1px solid var(--title-color);
+    height: 800px;
+    border-radius: 10px;
+}
+
+/*more chart*/
+.chartContent{
+    height: 750px;
+    border-right: 1px solid var(--main-text-color);
+    border-radius: 10px;
+
+    padding: 1rem;
+
+}
+.chartInfo{
+    height: 750px;
+    /*border: 1px solid var(--main-text-color);*/
+    border-radius: 10px;
+
+}
+.chartInfoText{
+    border-right: 1px solid var(--main-text-color);
+    height: 750px;
+}
+.chartInfoButton{
+
+}
+.chartInfoButton > button{
+    margin-top: 1rem;
+    width: 100%;
+    height: 3rem;
+    background-color: transparent;
+    border-color:var(--main-text-color);
+    border-left:none;
+}
+.chartBody{
+    height:670px;
+    border-bottom: 1px solid var(--main-text-color);
+}
+.archiveBody{
+    height:700px;
+}
+.settingBody{
+    height:700px;
+}
+
+.charChooseButton > button{
+    margin: 0 auto;
+    width: 10rem;
+    height: 3rem;
+    background-color: transparent;
+    border-color:var(--main-text-color);
+    border-top: none;
+}
+.charChooseButton > button + button{
+    margin-left: 1rem;
+}
+
+
+
+    /*default*/
+.paddingLeftZero{
+    padding-left: 0 !important;
+}
