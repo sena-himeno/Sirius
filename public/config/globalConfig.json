@@ -1,0 +1,39 @@
+{
+  "defaultArchiveConfig": {
+    "todo": true,
+    "diary": true,
+    "mood": true,
+    "chart": false,
+    "defaultPreMonth": true,
+    "selectMonth": "",
+    "fullYear": false,
+    "via": "day"
+  },
+
+  "currentArchiveConfig": {
+    "todo": true,
+    "diary": true,
+    "mood": true,
+    "chart": false,
+    "defaultPreMonth": true,
+    "selectMonth": "",
+    "fullYear": false,
+    "via": "day"
+  },
+
+
+
+  "defaultMoodArray": ["٩(◕‿◕｡)۶", " (´；ω；`)", "｡ﾟ( ﾟஇ‸இﾟ)ﾟ｡", ", (╬ Ò ‸ Ó)", ",(≧◡≦)", ",(≧∇≦)", ",(´～｀)", ", (´∀｀)♡", ",(ﾉ*>∀<)ﾉ", "（╥_╥）"],
+
+  "defaultTodoShort": {
+
+  },
+
+  "MAX_RETRY_COUNT": 5,
+
+  "DiaryTemp": ""
+
+
+
+
+}

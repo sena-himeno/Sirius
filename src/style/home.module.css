@@ -43,7 +43,7 @@
 
 }
 
-.basicStateContent > div >p {
+.basicStateContent > div > p {
     border-bottom: 1px solid var(--main-text-color);
 }
 

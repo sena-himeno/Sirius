@@ -76,7 +76,7 @@ export const monthlyStatsForYear = async (todoList: TodoEvent[], year: string): 
 	return monthlyStats;
 }
 
-export const getMood = async (currentDate: string): Promise<string | undefined> => {
+export const getMood = async (currentDate: string): Promise<string> => {
 	const month = currentDate.substring(0, 7);
 	const filePath = path.join(process.cwd(), 'public', 'diary', `${month}-mood.json`);
 	await fs.access(filePath);
@@ -88,7 +88,7 @@ export const getMood = async (currentDate: string): Promise<string | undefined> 
 			return moods.mood;
 		}
 	}
-	return 'nothing';
+	return 'Empty';
 }
 
 export const getDiaryCharCountByMonth = async (currentDate: string): Promise<Array<{ day: number, diaryCharCount: number }>> => {
@@ -149,3 +149,112 @@ export const postTodoShortAtServer = async (date: string, todoListShort: TodoEve
 	}
 	return false;
 };
+
+const defaultArchiveConfig: archiveConfigType = {
+	todo: true,
+	diary: true,
+	mood: true,
+	chart: false,
+	defaultPreMonth: true,
+	selectMonth: '',
+	fullYear: false,
+	via: 'day'
+}
+
+export const readConfig = async (fileName: string): Promise<archiveConfigType> => {
+	const filePath = path.join(process.cwd(), 'public', 'config', `${fileName}.json`);
+	const fileExists = await fs.access(filePath).then(() => true).catch(() => false);
+	if (fileExists) {
+		return await fs.readFile(filePath, 'utf-8').then(data => JSON.parse(data)).catch(() => ({}));
+	}
+	return defaultArchiveConfig
+}
+export const writeConfig = async (fileName: string, configs: archiveConfigType): Promise<archiveConfigType> => {
+	console.log(configs)
+	const filePath = path.join(process.cwd(), 'public', 'config', `${fileName}.json`);
+	const fileExists = await fs.access(filePath).then(() => true).catch(() => false);
+	if (fileExists) {
+		await fs.writeFile(filePath, JSON.stringify(configs, null, 2), 'utf-8');
+	}
+	return defaultArchiveConfig
+}
+
+// archive
+export interface archiveConfigType {
+	'todo': boolean
+	'diary': boolean
+	'mood': boolean
+	'chart': boolean
+	'defaultPreMonth': boolean
+	'selectMonth': string
+	'fullYear': boolean
+	'via': string
+}
+export const archiveMain = async (date: string): Promise<boolean> => {
+	const archiveConfig = await readConfig('archiveConfig');
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const	 { todo, diary, mood, chart, defaultPreMonth, selectMonth, fullYear, via } = archiveConfig;
+	let archiveContent = '';
+
+	const year: number = Number(date.split('-')[0])
+	const preMonth: number = Number(date.split('-')[1]) - 1
+	const daysInMonth = new Date(year, preMonth, 0).getDate()
+	const stringPreMonth = preMonth < 10 ? '0' + preMonth : String(preMonth)
+	if (defaultPreMonth && via === 'day') {
+		archiveContent += '# ' + year + stringPreMonth + '\n';
+		for (let i = 1; i <= daysInMonth; i++) {
+			let day = String(i);
+			if (i < 10) {
+				day = '0' + day
+			}
+			const targetDate = String(year) + '-' + stringPreMonth + '-' + day;
+			archiveContent += '## ' + targetDate + '\n\n';
+			archiveContent += '---' + '\n';
+			// archive mood
+			if (mood) {
+				const currentMoodData = await archiveMood(targetDate)
+				archiveContent += '### ' + currentMoodData + '\n';
+			}
+			// archive diary
+			if (diary) {
+				const currentDiaryContent = await archiveDiary(targetDate);
+				archiveContent += currentDiaryContent;
+			}
+
+			// archive chart
+
+			// archive todo
+
+			archiveContent += '\n\n\n';
+		}
+	}
+	console.log(archiveContent)
+
+	return false
+}
+// export const archiveByMonth = async (month: string, operate: []) => {
+//
+// }
+export const archiveTodo = async (date: string): Promise<boolean> => {
+	return false
+}
+export const archiveMood = async (date: string): Promise<string> => {
+	const currentMoodData = await getMood(date)
+	if (currentMoodData !== null && currentMoodData !== 'Empty') {
+		return 'mood ' + currentMoodData
+	} else {
+		return 'No mood entries for today';
+	}
+}
+export const archiveDiary = async (date: string): Promise<string> => {
+	const currentDiaryContent = await getTodoDayDiary(date);
+	if (currentDiaryContent !== null) {
+		return '### DiaryContent \n' + currentDiaryContent
+	} else {
+		return '### No diary entries for today';
+	}
+}
+
+export const archiveChart = async (date: string): Promise<boolean> => {
+	return false
+}

@@ -1,28 +1,21 @@
 import React from 'react';
 import Header from '../components/Header';
-import { Inter } from 'next/font/google';
 import { type Metadata } from 'next';
 import '@/style/color.css';
-
 import './globals.css';
-
 
 export const metadata: Metadata = {
   title: 'Sirius',
   description: 'i just want to be happy'
 };
 
-export default function RootLayout ({
-                                     children
-                                   }: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout ({children}: Readonly<{ children: React.ReactNode }>) {
   return (
       <html lang="en">
-      <body className={''}>
-      <Header />
-      {children}
-      </body>
+          <body className={''}>
+              <Header />
+              {children}
+          </body>
       </html>
   );
 }

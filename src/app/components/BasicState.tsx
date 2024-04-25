@@ -46,7 +46,7 @@ const BasicState: React.FC<{ todoItem: TodoEvent[], diaryContent: string | null 
     return (
         <div className={styles.basicStateContainer}>
             <div className={`row ${styles.basicStateContent}`}>
-                <h4 className={'text-center'}>Basic State</h4>
+                <h4 className={'text-center'}>Basic State <i className="bi bi-clipboard2-pulse"></i></h4>
                 <div className="col-8">
                     <p>{"Today's Diary:"}</p>
                     <p>{"Today's Mood:"}</p>

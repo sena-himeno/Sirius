@@ -1,0 +1,10 @@
+{
+  "todo": true,
+  "diary": true,
+  "mood": true,
+  "chart": false,
+  "defaultPreMonth": true,
+  "selectMonth": "",
+  "fullYear": false,
+  "via": "day"
+}

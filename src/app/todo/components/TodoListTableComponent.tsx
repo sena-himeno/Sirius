@@ -1,10 +1,10 @@
-import React, {useLayoutEffect, useState} from 'react';
-import {useDrag, useDrop} from 'react-dnd';
+import React, { useLayoutEffect, useState } from 'react';
+import { useDrag, useDrop } from 'react-dnd';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../../style/todoList.module.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import {Button} from '@mui/material';
-import {type TodoEvent, type TodoItemProps, type TodoListComponentProps} from '../../interface/todoList';
+import { Button } from '@mui/material';
+import { type TodoEvent, type TodoItemProps, type TodoListComponentProps } from '../../interface/todoList';
 
 // 根据进度返回相应的颜色
 const getColorForProgress = (progress: number): string => {

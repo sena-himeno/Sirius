@@ -3,7 +3,7 @@ import axios from 'axios';
 export const MOOD_CHOOSE = ['٩(◕‿◕｡)۶', ' (´；ω；`)', '｡ﾟ( ﾟஇ‸இﾟ)ﾟ｡', ' (╬ Ò ‸ Ó)', '(≧◡≦)', '(≧∇≦)', '(´～｀)', ' (´∀｀)♡', '(ﾉ*>∀<)ﾉ', '（╥_╥）'];
 export const MAX_RETRY_COUNT = 5;
 
-export const createMarkdownFile = async (localDate: string) => {
+export const createMarkdownFile = async (localDate: string): Promise<void> => {
     try {
         await axios.post('/api/diary/autoCreateDiary', { date: localDate });
     } catch (error) {
@@ -11,7 +11,7 @@ export const createMarkdownFile = async (localDate: string) => {
     }
 };
 
-export const checkCurrentMonthDiaryFile = async () => {
+export const checkCurrentMonthDiaryFile = async (): Promise<Record<string, boolean>> => {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth();
     const datesToCheck: Date[] = [];
@@ -36,7 +36,7 @@ export const checkCurrentMonthDiaryFile = async () => {
     return results;
 };
 
-export const checkMoodFileExists = async (currentDate: string) => {
+export const checkMoodFileExists = async (currentDate: string): Promise<boolean> => {
     try {
         const month = currentDate.substring(0, 7);
 
@@ -53,7 +53,7 @@ export const checkMoodFileExists = async (currentDate: string) => {
     }
 };
 
-export const fetchMoodData = async (currentDate: string) => {
+export const fetchMoodData = async (currentDate: string): Promise<[]> => {
     try {
         const month = currentDate.substring(0, 7);
         const response = await axios.get(`diary/${month}-mood.json`);
@@ -65,7 +65,10 @@ export const fetchMoodData = async (currentDate: string) => {
     }
 };
 
-export const postCurrentDayMood = async (currentDate: string, mood: string, moodData: Array<{ day: string, mood: string }>) => {
+export const postCurrentDayMood = async (currentDate: string, mood: string, moodData: Array<{ day: string, mood: string }>): Promise<Array<{
+    day: string
+    mood: string
+}>> => {
     try {
         const response = await axios.post('/api/diary/pushCurrentDayMood', {
             date: currentDate,

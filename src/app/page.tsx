@@ -5,6 +5,7 @@ import React from 'react';
 import { getAllTodoList } from '@/app/utils/todoList';
 import { type MonthlyStats, type TodoEvent } from '@/app/interface/todoList';
 import {
+    archiveMain,
     getShortTodoListAtServer,
     getTodoDayDiary,
     monthlyStatsForYear
@@ -28,42 +29,46 @@ export default async function Home (): Promise<React.JSX.Element> {
         todoLineChartDate = await monthlyStatsForYear(todoItem, `${new Date().getFullYear()}`);
     }
     await fetchTodo();
+
     return (
-      <div className={`container-fluid ${styles.home} shadow-lg justify-content-center mt-2`}>
-          <div className={'row'}>
-              <div className={`col-sm-12 col-md-10 col-lg-8 col-xl-6 ${styles.containerLeft}`}>
-                  <div className={`${styles.timeTracker}`}>
-                    <TimeTracker />
-                  </div>
-                  <div className={`${styles.basicState}`}>
-                    <BasicState todoItem={todoItem} diaryContent={diaryContent}/>
-                  </div>
-              </div>
-              <div className={`col-sm-12 col-md-10 col-lg-8 col-xl-6 ${styles.containerRight}`}>
-                  <div className={`row justify-content-center mt-2 ${styles.upperRight}`}>
-                      <div className={'col-5 text-center'}>
-                          <div className={styles.titleContainer}>
-                              <h4 className={'text-center'}>Todo In Progress <i className="bi bi-hourglass-split"></i>
-                              </h4>
-                          </div>
-                          <div className={`${styles.defaultContent}`}>
-                            <InProgress todoItem={todoItem.filter(item => item.status === 'in-progress')}/>
-                          </div>
-                      </div>
-                      <div className={'col-5 text-center'}>
-                          <div className={styles.titleContainer}>
-                              <h4 className={'text-center'}>Time Line</h4>
-                          </div>
-                          <div className={`${styles.defaultContent}`}>
-                              <TimeLine todoShortItem={todoShortItem ?? []}/>
-                          </div>
-                      </div>
-                  </div>
-              <div className={'text-center'}>
-                  <TodoLollipop todoLineChartDate={todoLineChartDate} />
-              </div>
-              </div>
-          </div>
-      </div>
-  );
+        <>
+            <div className={`container-fluid ${styles.home} shadow-lg justify-content-center mt-2`}>
+                <div className={'row'}>
+                    <div className={`col-sm-12 col-md-10 col-lg-8 col-xl-6 ${styles.containerLeft}`}>
+                        <div className={`${styles.timeTracker}`}>
+                            <TimeTracker/>
+                        </div>
+                        <div className={`${styles.basicState}`}>
+                            <BasicState todoItem={todoItem} diaryContent={diaryContent}/>
+                        </div>
+                    </div>
+                    <div className={`col-sm-12 col-md-10 col-lg-8 col-xl-6 ${styles.containerRight}`}>
+                        <div className={`row justify-content-center mt-2 ${styles.upperRight}`}>
+                            <div className={'col-5 text-center'}>
+                                <div className={styles.titleContainer}>
+                                    <h4 className={'text-center'}>Todo In Progress <i
+                                        className="bi bi-hourglass-split"></i>
+                                    </h4>
+                                </div>
+                                <div className={`${styles.defaultContent}`}>
+                                    <InProgress todoItem={todoItem.filter(item => item.status === 'in-progress')}/>
+                                </div>
+                            </div>
+                            <div className={'col-5 text-center'}>
+                                <div className={styles.titleContainer}>
+                                    <h4 className={'text-center'}>Time Line <i className="bi bi-clock"></i></h4>
+                                </div>
+                                <div className={`${styles.defaultContent}`}>
+                                    <TimeLine todoShortItem={todoShortItem ?? []}/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={'text-center'}>
+                            <TodoLollipop todoLineChartDate={todoLineChartDate}/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
 }

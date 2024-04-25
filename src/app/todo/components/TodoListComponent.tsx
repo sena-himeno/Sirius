@@ -64,7 +64,7 @@ const TodoList = (): React.JSX.Element => {
     return (
             <div className={`${styles.todoContainer} row shadow-lg p-3 mb-5`}>
                 <DndProvider backend={HTML5Backend}>
-                    <div className={'col-md-6 col-lg-4  '}>
+                    <div className={'col-md-12 col-xl-6 col-xxl-4   '}>
                         <TodoListComponent
                             key={JSON.stringify(memoizedValues.pendingItems)}
                             title="PENDING"
@@ -81,7 +81,7 @@ const TodoList = (): React.JSX.Element => {
                             {!isSaved && <SaveButton updatedItems={updatedItems} setIsSaved={setIsSaved}/>}
                         </div>
                     </div>
-                    <div className={'col-md-6 col-lg-4   '}>
+                    <div className={'col-md-12 col-xl-6 col-xxl-4    '}>
                         <TodoListComponent
                             key={JSON.stringify(memoizedValues.inProgressItems)}
                             title="IN_PROGRESS"
@@ -92,7 +92,7 @@ const TodoList = (): React.JSX.Element => {
                             onUpdateItems={handleUpdateItems}
                         />
                     </div>
-                    <div className={'col-md-6 col-lg-4 '}>
+                    <div className={'col-md-12 col-xl-6 col-xxl-4  '}>
                         <TodoListComponent
                             key={JSON.stringify(memoizedValues.doneItems)}
                             title="DONE_ITEM"

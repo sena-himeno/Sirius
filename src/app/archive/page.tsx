@@ -8,9 +8,9 @@ import Setting from '@/app/archive/components/Setting';
 import TimeLineComponent from '@/app/archive/components/TimeLine';
 
 export default function Page (): React.JSX.Element {
-    const [activeComponent, setActiveComponent] = useState('MoreChart');
+    const [activeComponent, setActiveComponent] = useState('Archive');
 
-    const renderComponent = () => {
+    const renderComponent = (): React.JSX.Element | null => {
         switch (activeComponent) {
             case 'MoreChart':
                 return <MoreChart />;
@@ -33,23 +33,31 @@ export default function Page (): React.JSX.Element {
                         <div className={'col-1'}></div>
                         <div className={`col-8 ${styles.buttonBlock}`}>
                             <button
-                                className={` ${styles.archiveControlButton} ${activeComponent === 'MoreChart' ? styles.activeButton : ''}`}
-                                onClick={() => { setActiveComponent('MoreChart'); }}>
-                                MORE CHART
-                            </button>
-                            <button
                                 className={` ${styles.archiveControlButton} ${activeComponent === 'Archive' ? styles.activeButton : ''}`}
-                                onClick={() => { setActiveComponent('Archive'); }}>
+                                onClick={() => {
+                                    setActiveComponent('Archive');
+                                }}>
                                 ARCHIVE
                             </button>
                             <button
+                                className={` ${styles.archiveControlButton} ${activeComponent === 'MoreChart' ? styles.activeButton : ''}`}
+                                onClick={() => {
+                                    setActiveComponent('MoreChart');
+                                }}>
+                                MORE CHART
+                            </button>
+                            <button
                                 className={` ${styles.archiveControlButton} ${activeComponent === 'Setting' ? styles.activeButton : ''}`}
-                                onClick={() => { setActiveComponent('Setting'); }}>
+                                onClick={() => {
+                                    setActiveComponent('Setting');
+                                }}>
                                 SETTING
                             </button>
                             <button
                                 className={` ${styles.archiveControlButton} ${activeComponent === 'TimeLine' ? styles.activeButton : ''}`}
-                                onClick={() => { setActiveComponent('TimeLine'); }}>
+                                onClick={() => {
+                                    setActiveComponent('TimeLine');
+                                }}>
                                 TIMELINE
                             </button>
                         </div>

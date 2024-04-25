@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 import React, { useEffect, useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
