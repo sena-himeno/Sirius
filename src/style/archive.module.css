@@ -76,9 +76,11 @@
     background-color: transparent;
     border-color:var(--main-text-color);
     border-top: none;
+
 }
 .charChooseButton > button + button{
     margin-left: 1rem;
+
 }
 
 
@@ -115,4 +117,20 @@
 .configItem{
     height: 3rem;
     color: var(--strong-text-color);
+}
+
+.archiveFilePreView{
+    color: var(--strong-text-color) ;
+}
+.archiveFileButton{
+    margin-bottom: 2rem;
+    border: 1px solid var(--main-text-color);
+    background-color: transparent;
+    text-align: center;
+    width: 100%;
+    color: var(--main-text-color);
+}
+.archiveFileButton:disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
 }

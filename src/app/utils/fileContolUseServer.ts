@@ -1,7 +1,7 @@
 'use server'
 import path from 'path';
 import fs from 'fs/promises';
-import { type MonthlyStats, type TodoEvent } from '@/app/interface/todoList';
+import {type MonthlyStats, type TodoEvent} from '@/app/interface/todoList';
 
 // todo
 export const getTodoListAtServer = async (fileName: string): Promise<any> => {
@@ -229,9 +229,20 @@ export const archiveMain = async (date: string): Promise<boolean> => {
 		}
 	}
 	console.log(archiveContent)
-
-	return false
+	return await saveArchiveFile(path.join(process.cwd(), 'public', 'archive'), date + '-archive', archiveContent)
 }
+
+export const saveArchiveFile = async (path: string, fileName: string, data: string): Promise<boolean> => {
+	try {
+		await fs.mkdir(path, { recursive: true });
+		await fs.writeFile(`${path}/${fileName}.md`, data, 'utf8');
+		return true;
+	} catch (error) {
+		console.error('Failed to save file:', error);
+		return false;
+	}
+};
+
 // export const archiveByMonth = async (month: string, operate: []) => {
 //
 // }

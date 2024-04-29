@@ -6,14 +6,19 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Sirius',
-  description: 'i just want to be happy'
+  description: 'i just want to be happy',
+    icons: {
+     icon: '/icon.png'
+    }
 };
 
 export default function RootLayout ({children}: Readonly<{ children: React.ReactNode }>) {
   return (
       <html lang="en">
-          <body className={''}>
-              <Header />
+          <head>
+          </head>
+      <body className={''}>
+      <Header />
               {children}
           </body>
       </html>

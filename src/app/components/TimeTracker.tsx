@@ -21,6 +21,7 @@ const ProgressComponent: React.FC<ProgressProps> = ({ mode, value }) => {
                                     variant="determinate"
                                     value={value}
                     />
+
                 </div>
                 <div className={'col-2 '}>
                     <p className={styles.timeTrackerValue}>{`${value}%`}</p>

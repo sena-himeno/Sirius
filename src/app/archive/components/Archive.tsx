@@ -2,11 +2,20 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '@/style/archive.module.css';
-import { type archiveConfigType, readConfig, writeConfig } from '@/app/utils/fileContolUseServer';
+import { type archiveConfigType, archiveMain, readConfig, writeConfig } from '@/app/utils/fileContolUseServer';
 import { getDate } from '@/app/utils/common';
 
 export default function Archive (): React.JSX.Element {
-    const [archiveConfig, setArchiveConfig] = useState<archiveConfigType>({});
+    const [archiveConfig, setArchiveConfig] = useState<archiveConfigType>({
+        chart: false,
+        defaultPreMonth: false,
+        diary: false,
+        fullYear: false,
+        mood: false,
+        selectMonth: "",
+        todo: false,
+        via: ""
+    });
     const [isConfigChanged, setIsConfigChanged] = useState<boolean>(false);
 
     useEffect(() => {
@@ -18,6 +27,7 @@ export default function Archive (): React.JSX.Element {
 
     const handleToggle = (name: string): void => {
         setArchiveConfig(prevState => {
+            // @ts-ignore
             const updatedConfig = { ...prevState, [name]: !prevState[name] };
             setIsConfigChanged(true);
             return updatedConfig;
@@ -59,6 +69,15 @@ interface ArchiveContentProps {
 }
 
 function ArchivePreviewContent ({ archiveConfig, handleToggle }: ArchiveContentProps): React.JSX.Element {
+    const [isArchive, setisArchive] = useState<boolean>(false);
+
+    const handleArchive = async () => {
+        setisArchive(true);
+        const result = await archiveMain(getDate());
+        if (!result) {
+            setisArchive(false)
+        }
+    };
     return (
         <div className={`col-12 ${styles.archiveBody}`}>
             <div className={'row '}>
@@ -72,14 +91,19 @@ function ArchivePreviewContent ({ archiveConfig, handleToggle }: ArchiveContentP
                     )}
                 </div>
                 <div className={`col-6 ${styles.rightContainer}`}>
-                    <div className={'container'}>
-                    <RangePreviewContent isDefault={archiveConfig.defaultPreMonth}
-                                         selectMonth={archiveConfig.selectMonth}
-                                         isFullYear={archiveConfig.fullYear}/>
-                        <div className={'border-top'}>
-                            {archiveConfig.mood && <MoodPreviewContent />}
-                            {archiveConfig.todo && <TodoPreviewContent />}
-                            {archiveConfig.diary && <DiaryPreviewContent />}
+                    <div className={' row'}>
+                        <div className={''}>
+                            <button disabled={isArchive} className={`${styles.archiveFileButton}`}
+                                    onClick={handleArchive}>Archive File
+                            </button>
+                        </div>
+                        <RangePreviewContent isDefault={archiveConfig.defaultPreMonth}
+                                             selectMonth={archiveConfig.selectMonth}
+                                             isFullYear={archiveConfig.fullYear}/>
+                        <div className={`border-top ${styles.archiveFilePreView}`}>
+                            {archiveConfig.mood && <MoodPreviewContent/>}
+                            {archiveConfig.todo && <TodoPreviewContent/>}
+                            {archiveConfig.diary && <DiaryPreviewContent/>}
                         </div>
                     </div>
                 </div>
@@ -94,7 +118,7 @@ interface ConfigItemsProps {
     handleToggle: (name: string) => void
 }
 
-const ConfigItems = ({ name, value, handleToggle }: ConfigItemsProps): React.JSX.Element => {
+const ConfigItems = ({name, value, handleToggle }: ConfigItemsProps): React.JSX.Element => {
     const isBoolean = typeof value === 'boolean';
     const displayValue = isBoolean ? (value ? 'On' : 'Off') : String(value);
 
@@ -140,12 +164,22 @@ const TodoPreviewContent = (): React.JSX.Element => {
     );
 };
 const RangePreviewContent = ({ isDefault, selectMonth, isFullYear }: { isDefault: boolean, selectMonth: string, isFullYear: boolean }): React.JSX.Element => {
+    const getPreviousMonthDate = (): string => {
+        if (isDefault) {
+            const today = new Date();
+            const year = today.getMonth() === 0 ? today.getFullYear() - 1 : today.getFullYear();
+            const month = today.getMonth() === 0 ? 11 : today.getMonth() - 1;
+            const firstDay = new Date(year, month, 1).toLocaleDateString();
+            const lastDay = new Date(year, month + 1, 0).toLocaleDateString();
+            return `${firstDay} to ${lastDay}`;
+        }
+        return '阿巴阿巴';
+    };
+
+
     return (
-        <div>
-            {isDefault
-                ? <div>{getDate()}</div>
-                : <div>N</div>
-            }
+        <div className={`${styles.archiveFilePreView}`}>
+            {getPreviousMonthDate()}
         </div>
     );
 };
