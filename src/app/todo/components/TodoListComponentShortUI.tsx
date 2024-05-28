@@ -49,8 +49,6 @@ export const TodoDetailDialog: React.FC<TodoDetailDialogProps> = ({ open, onClos
   )
 }
 
-
-
 export const AddTodoDialog: React.FC<AddTodoDialogProps> = ({ open, onClose, onAddTodo }) => {
   const [title, setTitle] = useState('')
 

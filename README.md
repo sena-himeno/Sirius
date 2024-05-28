@@ -1,5 +1,4 @@
 这是一个主打一个缝合的项目，用来写日记和todolist    
-内容简陋但是bug不少
 
 页面组成:
 1. diary 写日记的地方，没什么特别的 react-md-editor + react-calendar 融合
@@ -14,7 +13,7 @@
 ```
 pnpm install
 
-next -dev
+pnpm dev 
 ```
 
 

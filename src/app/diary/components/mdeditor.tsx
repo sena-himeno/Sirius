@@ -122,7 +122,7 @@ const MDEditorComponent: React.FC<MDEditorProps> = ({ url }) => {
                         </div>
                         : <div>
                             <div className={`p-3 ${styles.markdownPreviewBody}`} ref={divRef}>
-                                <MDEditor.Markdown className={`${styles.diaryPreview}`}
+                                <MDEditor.Markdown className={`${styles.diareview}`}
                                                    source={value}
                                 />
                             </div>

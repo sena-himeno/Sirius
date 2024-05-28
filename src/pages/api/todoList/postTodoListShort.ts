@@ -1,12 +1,12 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler (req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
         const { fileName, todoList, isBasic, date } = req.body;
-        if (!fileName || !date ||  !todoList ||  typeof isBasic === 'undefined') {
-            return res.status(400).json({ error: 'Missing file name, todo event data, or isBasic parameter' });
+        if (!fileName || !date || !todoList || typeof isBasic === 'undefined') {
+            res.status(400).json({ error: 'Missing file name, todo event data, or isBasic parameter' }); return;
         }
 
         const filePath = path.join(process.cwd(), 'public', 'todoList', `${fileName}.json`);
@@ -18,15 +18,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 console.log(`${fileName}.json created.`);
             }
 
-            let jsonData:any = [];
+            let jsonData: any = [];
             const fileData = await fs.readFile(filePath, 'utf-8');
             jsonData = JSON.parse(fileData);
 
             if (fileExists && !isBasic) {
-                const day = date.substring(date.lastIndexOf("-") + 1);
-                jsonData[day]=[...todoList];
-
-            }else{
+                const day = date.substring(date.lastIndexOf('-') + 1);
+                jsonData[day] = [...todoList];
+            } else {
                 jsonData = todoList;
             }
 

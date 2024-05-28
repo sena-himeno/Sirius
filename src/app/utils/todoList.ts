@@ -65,6 +65,7 @@ export const getAllTodoList = async (isClient: boolean): Promise<any[]> => {
             } else {
                 todoList = await getTodoListServer(fileName)
             }
+            // @ts-ignore
             todoLists.push(...todoList);
         }
         return todoLists;

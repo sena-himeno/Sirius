@@ -1,30 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { Calendar } from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import React, { useState, useEffect } from 'react';
+import { Calendar } from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../../style/calednar.module.css'
-// @ts-ignore
-import {Value} from "react-calendar/src/shared/types";
-import {CalendarComponentProps} from "../../interface/diary";
-import {createMarkdownFile,checkCurrentMonthDiaryFile} from "../../utils/diary";
+// @ts-expect-error
+import { type Value } from 'react-calendar/src/shared/types';
+import { type CalendarComponentProps } from '../../interface/diary';
+import { createMarkdownFile, checkCurrentMonthDiaryFile } from '../../utils/diary';
 
 const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateChange }) => {
     const [selectedDate, setSelectedDate] = useState<Date | Date[] | null>(new Date());
-    const [fileExistsMap, setFileExistsMap] = useState<{ [date: string]: boolean }>({});
-
+    const [fileExistsMap, setFileExistsMap] = useState<Record<string, boolean>>({});
 
     useEffect(() => {
         fetchExistDiaryFiles();
     }, []);
 
-
-
     const fetchExistDiaryFiles = async () => {
-            let results: { [date: string]: boolean } = {};
+            let results: Record<string, boolean> = {};
             results = await checkCurrentMonthDiaryFile();
             setFileExistsMap(results);
     };
-
 
     const tileClassName = ({ date }: { date: Date }): string => {
         const dateString = date.toLocaleDateString('en-CA');
@@ -33,7 +29,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateChange }) =
 
     const handleDateChange = (value: Value, event: React.MouseEvent<HTMLButtonElement>) => {
         if (!value || Array.isArray(value)) {
-            return;
+
         }
     }
 
@@ -42,7 +38,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateChange }) =
             return;
         }
 
-        const date = value as Date;
+        const date = value;
         const currentDate = new Date();
         const selectDate = new Date(date.getTime());
         selectDate.setHours(0);
@@ -70,4 +66,3 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateChange }) =
 }
 
 export default CalendarComponent;
-

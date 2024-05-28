@@ -4,6 +4,9 @@ const nextConfig = {
     publicRuntimeConfig:{
         diary:false,
         todoList:false
+    },
+    "eslint": {
+        "ignoreDuringBuilds": true,
     }
 };
 

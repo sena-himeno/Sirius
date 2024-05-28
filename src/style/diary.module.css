@@ -10,8 +10,6 @@
     border-bottom: none;
     padding-top:0.5rem;
     margin: 0 auto;
-
-
 }
 
 .buttonChoose{
@@ -47,12 +45,14 @@
     max-height: 700px   ;
     overflow-y: auto;
     background-color: var(--body-bg-color);
+    color: var(--normal-content)
 }
 
 .markdownContainer{
     max-height: 75vh;
     border-radius: 10px;
     padding-right:3em;
+    color: var(--strong-text-color)
 
 }
 .MDEditor{
@@ -62,6 +62,7 @@
     border: 1px solid var(--title-color);
     border-radius: 10px;
     max-height: 700px;
+    color: var(--normal-content)
 
 }
 
@@ -70,6 +71,7 @@
     background-color: var(--body-bg-color);
     border: 1px solid var(--title-color);
     border-radius: 10px;
+
 }
 
 

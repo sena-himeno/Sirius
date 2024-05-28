@@ -1,7 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 function TimeLineComponent (): React.JSX.Element {
     return (
         <div className={'text-center justify-content-center'}>

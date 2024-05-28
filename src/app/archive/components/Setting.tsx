@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '@/style/archive.module.css';
 
-export default function Setting () {
+export default function Setting (): React.JSX.Element {
     return (
         <div className={' '}>
             <div className={'row'}>

@@ -11,7 +11,7 @@ const Header: React.FC = () => {
                     <h3 className="mb-0">Sirius <i className="bi bi-feather"></i></h3>
                 </div>
                 <div className="col-lg-6 d-none d-xl-block">
-                    <p className="mb-0">私たちの願いは同じ空を繋いでる 私たちがしたいつかの約束と、 手に入れた誰かの記憶と妄想も</p>
+                    {/*<p className="mb-0">私たちの願いは同じ空を繋いでる 私たちがしたいつかの約束と、 手に入れた誰かの記憶と妄想も</p>*/}
                 </div>
                 <div className={`col-md-10 col-xl-4 col-lg-6 col-sm-6 col-sm-12 d-flex justify-content-end ${styles.buttonContainer}`}>
                     <Link href="/">

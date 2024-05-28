@@ -31,7 +31,10 @@
 
   "MAX_RETRY_COUNT": 5,
 
-  "DiaryTemp": ""
+  "DiaryTemp": "" ,
+  "DiaryPath": "",
+  "TodoPath": "",
+  "MoodPath": ""
 
 
 

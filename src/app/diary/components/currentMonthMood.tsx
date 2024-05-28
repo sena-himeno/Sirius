@@ -15,7 +15,7 @@ const MoodTracker: React.FC<{ currentDate: string }> = ({ currentDate }) => {
                 const moodData = await fetchMoodData(currentDate);
                 setMoodData(moodData);
             } else {
-                await postCurrentDayMood(currentDate, '[]', moodData);
+                await postCurrentDayMood(currentDate, '', moodData);
             }
         }
         void fetchData();

@@ -74,7 +74,6 @@ export const postCurrentDayMood = async (currentDate: string, mood: string, mood
             date: currentDate,
             mood
         });
-
         if (response.status === 200) {
             const updatedMoodData = [...moodData];
             const index = updatedMoodData.findIndex(item => item.day === currentDate.substring(8, 10));

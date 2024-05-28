@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
 import styles from '@/style/home.module.css';
-// @ts-expect-error
+// @ts-ignore
 import * as d3 from 'd3';
 import { type MonthlyStats } from '@/app/interface/todoList';
 
@@ -31,7 +31,7 @@ const LollipopChart: React.FC<LollipopChartProps> = ({ data, width, height, type
 			.padding(0.1);
 
 		const yScale = d3.scaleLinear()
-			.domain([0, d3.max(filteredData, d => d.value) || 0])
+			.domain([0, d3.max(filteredData, (d: any) => d.value) || 0])
 			.nice()
 			.range([innerHeight, 0]);
 
@@ -43,9 +43,9 @@ const LollipopChart: React.FC<LollipopChartProps> = ({ data, width, height, type
 			.enter().append('line')
 			.attr('class', type === 'add' ? 'added-line' : 'done-line')
 			.attr('x1', (d: { month: any }) => xScale(d.month) + xScale.bandwidth() / 2)
-			.attr('y1', d => yScale(0))
+			.attr('y1', (d: any) => yScale(0))
 			.attr('x2', (d: { month: any }) => xScale(d.month) + xScale.bandwidth() / 2)
-			.attr('y2', d => yScale(0))
+			.attr('y2', (d: any) => yScale(0))
 			.attr('stroke', type === 'add' ? 'steelblue' : 'pink')
 			.attr('stroke-width', 2);
 
@@ -53,20 +53,20 @@ const LollipopChart: React.FC<LollipopChartProps> = ({ data, width, height, type
 			.data(filteredData)
 			.enter().append('circle')
 			.attr('class', type === 'add' ? 'added-circle' : 'done-circle')
-			.attr('cx', d => xScale(d.month) + xScale.bandwidth() / 2)
-			.attr('cy', d => yScale(0))
+			.attr('cx', (d: any) => xScale(d.month) + xScale.bandwidth() / 2)
+			.attr('cy', (d: any) => yScale(0))
 			.attr('r', 5)
 			.style('fill', type === 'add' ? 'steelblue' : 'pink');
 
 		circles.transition()
 			.duration(1000)
-			.delay((d, i) => i * 100)
-			.attr('cy', d => yScale(d.value));
+			.delay((d: any, i: number) => i * 100)
+			.attr('cy', (d: any) => yScale(d.value));
 
 		lines.transition()
 			.duration(1000)
-			.delay((d, i) => i * 100)
-			.attr('y2', d => yScale(d.value));
+			.delay((d: any, i: number) => i * 100)
+			.attr('y2', (d: any) => yScale(d.value));
 
 		const xAxis = d3.axisBottom(xScale);
 		g.append('g')

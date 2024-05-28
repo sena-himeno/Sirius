@@ -29,12 +29,12 @@ const DiaryCharCountLineChart: React.FC<Props> = ({ data }) => {
 			.range([0, innerWidth]);
 
 		const yScale = d3.scaleLinear()
-			.domain([0, d3.max(data, d => d.diaryCharCount) || 0])
+			.domain([0, d3.max(data, (d: any) => d.diaryCharCount) || 0])
 			.range([innerHeight, 0]);
 
 		const line = d3.line<DataPoint>()
-			.x(d => xScale(d.day))
-			.y(d => yScale(d.diaryCharCount));
+			.x((d: any) => xScale(d.day))
+			.y((d: any) => yScale(d.diaryCharCount));
 
 		const svg = d3.select(svgRef.current);
 
